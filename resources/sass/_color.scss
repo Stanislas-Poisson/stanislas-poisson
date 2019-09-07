@@ -1,0 +1,68 @@
+$color: (
+    bg: #fff,
+    bg-alternate: #212121,
+    dark: #212121,
+    grey: #eeeeee,
+    light: #fefefe,
+    green: #26a69a,
+    languages: #15a0bf,
+    outils: #009c41,
+    os: #ca2c68,
+    border: #009688,
+);
+
+$experiences: (
+    msgDark: #064b71,
+    msgLight: #fff,
+    susDark: #000000,
+    susLight: #c4b5a8,
+    aniDark: #27ae60,
+    aniLight: #fff,
+);
+
+$skils: (
+    languages: #15a0bf,
+);
+
+$comp: (
+    html: #e95726,
+    css: #264de4,
+    js: #f7df1e,
+    php: #6181b6,
+    mysql: #e48e00,
+    bash: #1b1b1f,
+    st: #ffbf41,
+    apache: #fff,
+    git: #de4c36,
+    drive: #0fa861,
+    photoshop: #7ebcf9,
+    affinity: #00d8e8,
+    illustrator: #ffb447,
+    premier: #d757ff,
+    linux: #a7a7a7,
+    windows: #00adef,
+    mac: #a37f87,
+);
+
+$notifs: (
+    wrong: (
+        bg: #f44336,
+        color: #fff,
+    ),
+    alert: (
+        bg: #ffb300,
+        color: #fff,
+    ),
+    good: (
+        bg: #8bc34a,
+        color: #fff,
+    ),
+    info: (
+        bg: #039be5,
+        color: #fff,
+    ),
+    tip: (
+        bg: #fff176,
+        color: #fff,
+    ),
+);

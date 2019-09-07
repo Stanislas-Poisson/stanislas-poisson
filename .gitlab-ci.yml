@@ -1,0 +1,53 @@
+variables:
+  WITH_XDEBUG: "1"
+  MYSQL_ROOT_PASSWORD: root
+  MYSQL_DATABASE: stanislaspoisson
+  MYSQL_USER: stanislaspoisson
+  MYSQL_PASSWORD: stanislaspoisson
+  COMPOSER_HOME: /cache/composer
+  REDIS_PORT: 6379
+
+stages:
+  - build
+  - test
+
+composer-npm:
+  stage: build
+  image: stanislasp/laravel-5-php-7.3:latest
+  script:
+    - composer install --no-progress --no-interaction
+    - npm install --ignore-engines
+    - cp .env.test .env
+    - php artisan key:generate
+    - npm run production
+  artifacts:
+    paths:
+      - .env
+      - vendor/
+      - node_modules
+      - public/
+
+fixer-cs:
+  stage: test
+  dependencies:
+    - composer-npm
+  image: stanislasp/laravel-5-php-7.3:latest
+  script:
+    - php artisan fixer:fix --no-interaction --dry-run --diff --using-cache=no
+    - prettier --check "resources/**/*.+(js|json|vue|scss)"
+
+phpunit:
+  stage: test
+  image: stanislasp/laravel-5-php-7.3:latest
+  services:
+    - mysql:5.7
+    - redis:3-alpine
+  script:
+    - php vendor/bin/phpunit --stderr --colors --coverage-text
+  artifacts:
+    when: on_failure
+    name: "${CI_BUILD_STAGE}_${CI_BUILD_REF_NAME}_FAILED"
+    paths:
+      - '.'
+    untracked: false
+    expire_in: 1 day

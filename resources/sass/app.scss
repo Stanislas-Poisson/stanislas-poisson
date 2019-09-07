@@ -1,0 +1,18 @@
+@charset "UTF-8";
+$debug-browser-support: true;
+$browser-minimum-versions: (
+    'ie': '9',
+);
+$graceful-usage-threshold: 4.46163;
+@import '~compass-mixins';
+
+@import '_mixin.scss';
+@import '_color.scss';
+@import '_vars.scss';
+@import '_reset.scss';
+@import '_form.scss';
+
+@import '_body.scss';
+@import '_header.scss';
+@import '_main.scss';
+@import '_footer.scss';
