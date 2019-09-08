@@ -67,8 +67,8 @@ seed: migration	## Artisan migrate then seed through docker
 clearLogs:	## Clear the logs for the new run
 	$(RUN) rm -f storage/logs/*
 
-test: ## Run the PHPUnit
-	$(RUN) vendor/bin/phpunit --stderr
+test: ## Run the PHPUnit with coverage support with the regex \s+Lines:\s+(\d+.\d+\%) \(\d
+	$(RUN) vendor/bin/phpunit --stderr --coverage-text --colors=never
 
 cs: ## Run the PHP-CS-Fixer and Prettier
 	$(RUN) php artisan fixer:fix --no-interaction --dry-run --diff --using-cache=no

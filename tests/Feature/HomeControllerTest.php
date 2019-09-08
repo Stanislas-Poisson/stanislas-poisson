@@ -4,11 +4,7 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 
-/**
- * @internal
- * @coversNothing
- */
-class HomeTest extends TestCase
+class HomeControllerTest extends TestCase
 {
     public function testHomeDisplayable()
     {
