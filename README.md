@@ -1,7 +1,7 @@
 # Stanislas-Poisson
 
-Master : [![pipeline status](https://gitlab.com/Stanislas-Poisson/stanislas-poisson/badges/master/pipeline.svg)](https://gitlab.com/Stanislas-Poisson/stanislas-poisson/commits/master)
-Develop : [![pipeline status](https://gitlab.com/Stanislas-Poisson/stanislas-poisson/badges/develop/pipeline.svg)](https://gitlab.com/Stanislas-Poisson/stanislas-poisson/commits/develop)
+Master : [![pipeline status](https://gitlab.com/Stanislas-Poisson/stanislas-poisson/badges/master/pipeline.svg)](https://gitlab.com/Stanislas-Poisson/stanislas-poisson/commits/master) [![coverage report](https://gitlab.com/Stanislas-Poisson/stanislas-poisson/badges/master/coverage.svg)](https://gitlab.com/Stanislas-Poisson/stanislas-poisson/commits/master)
+Develop : [![pipeline status](https://gitlab.com/Stanislas-Poisson/stanislas-poisson/badges/develop/pipeline.svg)](https://gitlab.com/Stanislas-Poisson/stanislas-poisson/commits/develop) [![coverage report](https://gitlab.com/Stanislas-Poisson/stanislas-poisson/badges/develop/coverage.svg)](https://gitlab.com/Stanislas-Poisson/stanislas-poisson/commits/develop)
 
 This is a [Laravel 6.0](https://laravel.com/docs/6.0) app.
 

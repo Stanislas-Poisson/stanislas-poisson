@@ -43,7 +43,7 @@ phpunit:
     - mysql:5.7
     - redis:3-alpine
   script:
-    - php vendor/bin/phpunit --stderr --colors --coverage-text
+    - php vendor/bin/phpunit --stderr --coverage-text --colors=never
   artifacts:
     when: on_failure
     name: "${CI_BUILD_STAGE}_${CI_BUILD_REF_NAME}_FAILED"
