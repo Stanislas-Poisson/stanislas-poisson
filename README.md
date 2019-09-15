@@ -1,7 +1,9 @@
 # Stanislas-Poisson
 
-Master : [![pipeline status](https://gitlab.com/Stanislas-Poisson/stanislas-poisson/badges/master/pipeline.svg)](https://gitlab.com/Stanislas-Poisson/stanislas-poisson/commits/master) [![coverage report](https://gitlab.com/Stanislas-Poisson/stanislas-poisson/badges/master/coverage.svg)](https://gitlab.com/Stanislas-Poisson/stanislas-poisson/commits/master)
-Develop : [![pipeline status](https://gitlab.com/Stanislas-Poisson/stanislas-poisson/badges/develop/pipeline.svg)](https://gitlab.com/Stanislas-Poisson/stanislas-poisson/commits/develop) [![coverage report](https://gitlab.com/Stanislas-Poisson/stanislas-poisson/badges/develop/coverage.svg)](https://gitlab.com/Stanislas-Poisson/stanislas-poisson/commits/develop)
+| Branche | Status | Code Coverage |
+| ------- | ------ | ------------- |
+| Master | [![pipeline status](https://gitlab.com/Stanislas-Poisson/stanislas-poisson/badges/master/pipeline.svg)](https://gitlab.com/Stanislas-Poisson/stanislas-poisson/commits/master) | [![coverage report](https://gitlab.com/Stanislas-Poisson/stanislas-poisson/badges/master/coverage.svg)](https://gitlab.com/Stanislas-Poisson/stanislas-poisson/commits/master) |
+| Develop | [![pipeline status](https://gitlab.com/Stanislas-Poisson/stanislas-poisson/badges/develop/pipeline.svg)](https://gitlab.com/Stanislas-Poisson/stanislas-poisson/commits/develop) | [![coverage report](https://gitlab.com/Stanislas-Poisson/stanislas-poisson/badges/develop/coverage.svg)](https://gitlab.com/Stanislas-Poisson/stanislas-poisson/commits/develop) |
 
 This is a [Laravel 6.0](https://laravel.com/docs/6.0) app.
 
@@ -24,7 +26,7 @@ This is a [Laravel 6.0](https://laravel.com/docs/6.0) app.
 ## How to run
 
 - install Docker and Docker Compose
-- `cp .env.test .env` and customize `.env`
+- `cp .env.exemple .env` and customize `.env`
 - `php artisan key:generate`
 - `make start`
 
@@ -37,3 +39,15 @@ Install of Livereload : https://github.com/JeffreyWay/laravel-mix/blob/master/do
 Then:
 - `make ssh`
 - `npm run watch-poll`
+
+## Coding Style and Tests
+
+You have to use coding rules on this projet, please use these commands to check or fix your code:
+
+### Check
+- `make cs` to check the coding style (with fixer and prettier)
+- `make test` to execute the phpunit test
+- `make test-cs` to execute both the make `cs` and `test`
+
+### Fix
+- `make fix` to apply the rules to your code
