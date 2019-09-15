@@ -48,7 +48,7 @@ composer:	## Install or update the composer dependencies
 	$(RUN) composer install --no-interaction --prefer-dist --optimize-autoloader
 
 node:	## Install or update the node dependencies
-	$(RUN) npm install --ignore-engines
+	$(RUN) yarn install --ignore-engines --frozen-lockfile
 
 front:	## Run the buil for the front
 	$(RUN) npm run dev
