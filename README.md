@@ -17,6 +17,7 @@ This is a [Laravel 6.0](https://laravel.com/docs/6.0) app.
   - Tokenizer PHP Extension
   - XML PHP Extension
 - Node.js
+  - yarn
 - a MySQL 5.7 database and a user with the `SUPER` priviledge on it
 - a Redis database
 

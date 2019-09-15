@@ -11,12 +11,12 @@ stages:
   - build
   - test
 
-composer-npm:
+composer-yarn:
   stage: build
   image: stanislasp/laravel-5-php-7.3:latest
   script:
     - composer install --no-progress --no-interaction
-    - npm install --ignore-engines
+    - yarn install --ignore-engines --frozen-lockfile
     - cp .env.test .env
     - php artisan key:generate
     - npm run production
@@ -30,7 +30,7 @@ composer-npm:
 fixer-cs:
   stage: test
   dependencies:
-    - composer-npm
+    - composer-yarn
   image: stanislasp/laravel-5-php-7.3:latest
   script:
     - php artisan fixer:fix --no-interaction --dry-run --diff --using-cache=no
