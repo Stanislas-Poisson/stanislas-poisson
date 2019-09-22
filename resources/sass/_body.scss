@@ -930,24 +930,6 @@ a.hired {
                 }
             }
         }
-        &.sus {
-            header {
-                background-color: getColor($experiences, susDark);
-                color: getColor($experiences, susLight);
-                a {
-                    color: getColor($experiences, susLight);
-                }
-            }
-        }
-        &.ani {
-            header {
-                background-color: getColor($experiences, aniDark);
-                color: getColor($experiences, aniLight);
-                a {
-                    color: getColor($experiences, aniLight);
-                }
-            }
-        }
         header {
             padding: pxToRem(22) 0;
 

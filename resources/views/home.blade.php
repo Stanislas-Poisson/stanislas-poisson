@@ -487,66 +487,8 @@
             </article>
             <div class="row">
                 <div class="cell">
-                    <article class="sus" itemscope itemtype="http://schema.org/Corporation">
-                        <header>
-                            <h3>
-                                <a href="http://www.sushishop.fr/" title="Aller voir l'entreprise" target="_blank" rel="nofollow" itemprop="url">
-                                    <img src="{{ asset('images/sushishop-sd.jpg') }}" itemprop="image" srcset="{{ asset('images/sushishop-xd-2x.jpg') }} 1850w,{{ asset('images/sushishop-hd-2x.jpg') }} 1324w,{{ asset('images/sushishop-xd.jpg') }} 991w,{{ asset('images/sushishop-hd.jpg') }} 662w,{{ asset('images/sushishop-md.jpg') }} 501w,{{ asset('images/sushishop-ld.jpg') }} 488w,{{ asset('images/sushishop-sd.jpg') }} 315w" sizes="(max-width: 501px) 100vw, (max-width: 1023px) 45vw, 315px" alt="SushiSHOP">
-                                    <span itemprop="name">SushiSHOP</span>
-                                </a>
-                            </h3>
-                        </header>
-                        <section>
-                            <meta content="https://fr.wikipedia.org/wiki/Sushi_Shop" itemprop="sameAs">
-                            <div itemprop="member" itemscope itemtype="http://schema.org/OrganizationRole">
-                                <p class="duree">De <time itemprop="startDate" datetime="2012-05-30">Mai 2012</time> à <time itemprop="endDate" datetime="2015-05-12">Mai 2015</time></p>
-                                <meta content="Employé polyvalent" itemprop="roleName">
-                                <div itemprop="description">
-                                    <p>Employé polyvalent dans la vente et livraison de produits alimentaire Japonais.</p>
-                                </div>
-                            </div>
-                        </section>
-                        <footer>
-                            <address itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
-                                <a href="http://maps.google.com?q=5+place+Jean+Jaures+37000+Tours" title="Voir l'emplacement sur Google Map" target="_blank" rel="nofollow">
-                                    <span itemprop="streetAddress">5 place Jean-Jaurès</span>, <span itemprop="postalCode">37000</span> <span itemprop="addressLocality">Tours</span>
-                                </a>
-                                <meta content="+33826826628" itemprop="telephone">
-                            </address>
-                        </footer>
-                    </article>
                 </div>
                 <div class="cell">
-                    <article class="ani" itemscope itemtype="http://schema.org/LocalBusiness">
-                        <header>
-                            <h3>
-                                <a href="http://www.lesanimauxdelaferme.com/" title="Aller voir l'entreprise Les Animaux de La Ferme" target="_blank" rel="nofollow" itemprop="url">
-                                    <img src="{{ asset('images/la-pierre-sd.jpg') }}" itemprop="image" srcset="{{ asset('images/la-pierre-xd-2x.jpg') }} 1850w,{{ asset('images/la-pierre-hd-2x.jpg') }} 1324w,{{ asset('images/la-pierre-xd.jpg') }} 991w,{{ asset('images/la-pierre-hd.jpg') }} 662w,{{ asset('images/la-pierre-md.jpg') }} 501w,{{ asset('images/la-pierre-ld.jpg') }} 488w,{{ asset('images/la-pierre-sd.jpg') }} 315w" sizes="(max-width: 501px) 100vw, (max-width: 1023px) 45vw, 315px" alt="La Demeure de la Pierre | Les Animaux de La Ferme">
-                                    <span itemprop="name">Les Animaux de La Ferme</span>
-                                </a>
-                            </h3>
-                            <meta content="La Demeure de La Pierre" itemprop="alternateName">
-                            <meta content="Poisson Fabrice" itemprop="legalName">
-                        </header>
-                        <section>
-                            <div itemprop="member" itemscope itemtype="http://schema.org/OrganizationRole">
-                                <p class="duree">De <time itemprop="startDate" datetime="2009-11-17">Nov. 2009</time> à <time itemprop="endDate" datetime="2010-11-16">Nov. 2010</time></p>
-                                <meta content="Employé polyvalent" itemprop="roleName">
-                                <div itemprop="description">
-                                    <p>Création du site internet et communication sur les réseaux sociaux pour le parc animalier.</p>
-                                </div>
-                            </div>
-                            <meta content="http://www.foie-gras-vendee.fr/" itemprop="sameAs">
-                        </section>
-                        <footer>
-                            <address itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
-                                <a href="http://maps.google.com?q=la+pierre+85440+avrillé" title="Voir l'emplacement sur Google Map" target="_blank" rel="nofollow">
-                                    <span itemprop="streetAddress">La Pierre</span>, <span itemprop="postalCode">85440</span> <span itemprop="addressLocality">Avrillé</span>
-                                </a>
-                                <meta content="+33251223950" itemprop="telephone">
-                            </address>
-                        </footer>
-                    </article>
                 </div>
             </div>
         </div>
