@@ -350,9 +350,6 @@ a.hired {
             width: pxToRem(20);
             height: pxToRem(40);
         }
-        &:after,
-        &::after {
-        }
         .tr {
             max-width: pxToRem(408);
             @include box-shadow(none);
@@ -921,6 +918,32 @@ a.hired {
             0 pxToRem(1) pxToRem(5) 0 rgba(getColor($color, dark), 0.12)
         );
 
+        &.to {
+            header {
+                background-color: getColor($experiences, toLight);
+                color: getColor($experiences, toDark);
+                a {
+                    color: getColor($experiences, toDark);
+
+                    img {
+                        width: 80%;
+                    }
+                }
+            }
+        }
+        &.fox {
+            header {
+                background-color: getColor($experiences, foxLight);
+                color: getColor($experiences, foxDark);
+                a {
+                    color: getColor($experiences, foxDark);
+
+                    img {
+                        width: 80%;
+                    }
+                }
+            }
+        }
         &.msg {
             header {
                 background-color: getColor($experiences, msgDark);
@@ -971,6 +994,9 @@ a.hired {
                     line-height: pxToRem(16);
                 }
             }
+            ul {
+                padding-left: pxToRem(16);
+            }
         }
         footer {
             border-top: pxToRem(1) solid rgba(getColor($color, dark), 0.1);
@@ -1000,213 +1026,28 @@ a.hired {
         }
     }
 
-    .cell {
-        &:last-child {
-            article {
-                margin-bottom: 0;
-            }
-        }
-    }
-
-    #view {
-        padding: pxToRem(8) pxToRem(12);
-        margin-bottom: pxToRem(16);
-        @include box-shadow(
-            0 pxToRem(2) pxToRem(2) 0 rgba(getColor($color, dark), 0.14),
-            0 pxToRem(3) pxToRem(1) pxToRem(-2)
-                rgba(getColor($color, dark), 0.2),
-            0 pxToRem(1) pxToRem(5) 0 rgba(getColor($color, dark), 0.12)
-        );
-
-        img {
-            float: left;
-            width: pxToRem(64);
-            margin: 0 pxToRem(8) pxToRem(8) 0;
-        }
-        a {
-            float: right;
-            text-decoration: none;
-            font-size: pxToRem(14);
-            font-style: italic;
-            font-weight: 300;
-        }
-        h3 {
-            font-size: pxToRem(14);
-        }
-        p {
-            margin: 0;
-            font-style: italic;
-        }
-    }
-
-    #customers {
-        position: relative;
-        margin: 0 0 pxToRem(16);
-
-        div {
-            position: relative;
-            padding-top: 49.634%;
-        }
-
-        img {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            max-height: 100%;
-            width: auto;
-            @include transform(translateX(-50%));
-
-            &:nth-child(1) {
-                @include animation(animcusto1, 15s, linear, false, infinite);
-            }
-
-            &:nth-child(2) {
-                @include animation(animcusto2, 15s, linear, false, infinite);
-            }
-
-            &:nth-child(3) {
-                @include animation(animcusto3, 15s, linear, false, infinite);
-            }
-
-            &:nth-child(4) {
-                @include animation(animcusto4, 15s, linear, false, infinite);
-            }
-
-            &:nth-child(5) {
-                @include animation(animcusto5, 15s, linear, false, infinite);
-            }
-        }
-
-        @include keyframes('animcusto1') {
-            0%,
-            18% {
-                opacity: 1;
-            }
-            20%,
-            100% {
-                opacity: 0;
-            }
-        }
-
-        @include keyframes('animcusto2') {
-            0%,
-            18%,
-            40%,
-            100% {
-                opacity: 0;
-            }
-            20%,
-            38% {
-                opacity: 1;
-            }
-        }
-
-        @include keyframes('animcusto3') {
-            0%,
-            38%,
-            60%,
-            100% {
-                opacity: 0;
-            }
-            40%,
-            58% {
-                opacity: 1;
-            }
-        }
-
-        @include keyframes('animcusto4') {
-            0%,
-            58%,
-            80%,
-            100% {
-                opacity: 0;
-            }
-            60%,
-            78% {
-                opacity: 1;
-            }
-        }
-
-        @include keyframes('animcusto5') {
-            0%,
-            78%,
-            100% {
-                opacity: 0;
-            }
-            80%,
-            98% {
-                opacity: 1;
-            }
-        }
-
-        figcaption {
-            color: rgba(getColor($color, dark), 0.87);
-            font-style: italic;
-            font-weight: 300;
-            font-size: pxToRem(14);
-        }
-    }
-
     @media screen and (min-width: 502px) {
         display: block;
         background-color: getColor($color, grey);
 
         article {
             background-color: getColor($color, light);
-            margin-right: pxToRem(16);
-            margin-left: pxToRem(16);
         }
         .row {
-            display: table;
-            margin-right: pxToRem(16);
-            margin-left: pxToRem(16);
-        }
-        .cell {
-            display: table-cell;
-            vertical-align: top;
-            width: 50%;
-            padding-right: pxToRem(8);
-
-            &:last-child {
-                padding-right: 0;
-                padding-left: pxToRem(8);
-            }
-            article {
-                margin: 0;
-            }
-        }
-        #customers {
-            width: 66%;
-            max-width: pxToRem(364);
-            margin-right: auto;
-            margin-left: auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: auto;
+            grid-gap: pxToRem(32);
         }
     }
     @media screen and (min-width: 1024px) {
-        .msg {
-            display: inline-block;
-            vertical-align: top;
-            width: 66.666%;
-            margin-right: 0;
-            margin-left: 0;
+        .to {
+            width: 80%;
+            margin-right: auto;
+            margin-left: auto;
         }
         .row {
-            display: inline-block;
-            vertical-align: top;
-            width: 33.333%;
-            margin-right: 0;
-            margin-left: 0;
-        }
-        .cell {
-            display: block;
-            width: 100%;
-            padding-right: 0;
-            padding-right: 0;
-            padding-left: 16px;
-
-            article {
-                margin-bottom: pxToRem(32);
-            }
+            grid-template-columns: repeat(2, 1fr);
         }
     }
 }
