@@ -7,10 +7,6 @@ body {
     font-weight: normal;
     color: getColor($color, dark);
     color: rgba(getColor($color, dark), 0.87);
-
-    @media screen and (min-width: 426px) {
-        //font-size: calc( 16px + ( 24 - 16 ) * ( 100vw - 400px ) / ( 800 - 400 ) );
-    }
 }
 
 h1,
@@ -35,9 +31,11 @@ a {
 .italic {
     font-style: italic;
 }
+
 .tc {
     text-align: center;
 }
+
 .txr {
     text-align: right;
 }
@@ -127,6 +125,7 @@ p.hired {
         }
     }
 }
+
 a.hired {
     color: getColorDark($color, green, 5);
 }
@@ -142,6 +141,7 @@ a.hired {
         margin: 0 auto;
     }
 }
+
 .bgDark {
     background-color: getColor($color, dark);
 }
@@ -174,6 +174,7 @@ a.hired {
         height: 100%;
         z-index: 3;
     }
+
     .cell {
         display: table-cell;
         vertical-align: middle;
@@ -181,17 +182,15 @@ a.hired {
     }
 
     .tr {
-        position: relative;
-        display: table;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto;
         width: 96%;
         max-width: pxToRem(320);
         margin: pxToRem(48) auto 0;
     }
-    .tc {
-        display: table-cell;
-        vertical-align: middle;
-        width: 50%;
 
+    .tc {
         a {
             position: relative;
             display: block;
@@ -200,7 +199,6 @@ a.hired {
             line-height: pxToRem(36);
             background-color: getColor($color, green);
             color: getColor($color, light);
-            // color: rgba( getColor( $color, light ), .87 );
             text-decoration: none;
             text-transform: uppercase;
             @include border-radius(0 pxToRem(2) pxToRem(2) 0);
@@ -327,6 +325,7 @@ a.hired {
             position: relative;
             display: block;
             padding-left: pxToRem(64);
+
             span {
                 font-weight: 300;
             }
@@ -343,6 +342,7 @@ a.hired {
         @include text-shadow(0 0 pxToRem(8) rgba(getColor($color, dark), 0.5));
         margin: pxToRem(48) 0 0;
     }
+
     @media screen and (min-width: 426px) {
         &:before,
         &::before {
@@ -350,22 +350,16 @@ a.hired {
             width: pxToRem(20);
             height: pxToRem(40);
         }
-        &:after,
-        &::after {
-        }
+
         .tr {
             max-width: pxToRem(408);
             @include box-shadow(none);
+            grid-gap: pxToRem(32);
         }
+
         .tc {
-            padding-right: pxToRem(16);
-
-            &:last-child {
-                padding-right: 0;
-                padding-left: pxToRem(16);
-            }
-
-            a {
+            a,
+            a.down {
                 max-width: pxToRem(216);
                 @include border-radius(pxToRem(2));
                 @include box-shadow(
@@ -377,6 +371,7 @@ a.hired {
             }
         }
     }
+
     @media screen and (orientation: landscape) {
         &:before,
         &::before {
@@ -385,6 +380,7 @@ a.hired {
             bottom: auto;
             margin-left: 0;
         }
+
         &:after,
         &::after {
             top: pxToRem(24);
@@ -393,12 +389,14 @@ a.hired {
             margin-left: 0;
         }
     }
+
     @media screen and (min-width: 426px) and (orientation: landscape) {
         &:after,
         &::after {
             left: pxToRem(34);
         }
     }
+
     @media screen and (min-width: 1024px) and (orientation: landscape),
         screen and (min-width: 1024px) and (orientation: portrait) {
         &:before,
@@ -411,6 +409,7 @@ a.hired {
             margin-left: pxToRem(-45);
             border-top-width: pxToRem(2);
         }
+
         &:after,
         &::after {
             top: auto;
@@ -447,11 +446,12 @@ a.hired {
     }
 
     .row {
-        display: table;
-        width: 100%;
-        height: 100%;
-        vertical-align: middle;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        grid-gap: pxToRem(16);
     }
+
     .cell {
         display: table-row;
         width: 100%;
@@ -475,12 +475,14 @@ a.hired {
             margin: 0;
             padding: pxToRem(8);
         }
+
         p {
             margin: 0;
             padding: pxToRem(8);
             line-height: pxToRem(22);
         }
     }
+
     p.psst {
         position: relative;
         margin: 0;
@@ -504,11 +506,13 @@ a.hired {
             background-color: getColorDark($color, green, 5);
             @include border-radius(50%);
         }
+
         @media screen and (min-width: 424px) {
             margin-right: auto;
             margin-left: auto;
         }
     }
+
     @media screen and (min-width: 502px) {
         .dMax {
             display: block;
@@ -518,23 +522,12 @@ a.hired {
             display: block;
         }
 
-        .cell {
-            display: table-cell;
-            width: 50%;
-        }
         .row {
-            display: table-row;
-            &.ini {
-                .cell {
-                    &:first-child {
-                        width: 40%;
-                        padding-left: pxToRem(24);
-                    }
-                    #avatar {
-                        width: auto;
-                        max-width: pxToRem(208);
-                    }
-                }
+            grid-template-columns: repeat(2, 1fr);
+
+            #avatar {
+                width: auto;
+                max-width: pxToRem(208);
             }
         }
     }
@@ -565,8 +558,6 @@ a.hired {
             font-size: pxToRem(34);
             line-height: pxToRem(34);
             content: 'school';
-            // color: getColor( $color, dark );
-            // color: rgba( getColor( $color, dark ), .87 );
         }
     }
 
@@ -608,6 +599,7 @@ a.hired {
                 color: getColor($color, languages);
                 border-bottom: pxToRem(2) solid getColor($color, languages);
             }
+
             .progress-bar {
                 background-color: rgba(getColor($color, languages), 0.4);
 
@@ -642,6 +634,7 @@ a.hired {
                 color: getColor($color, outils);
                 border-bottom: pxToRem(2) solid getColor($color, outils);
             }
+
             .progress-bar {
                 background-color: rgba(getColor($color, outils), 0.4);
 
@@ -676,6 +669,7 @@ a.hired {
                 color: getColor($color, os);
                 border-bottom: pxToRem(2) solid getColor($color, os);
             }
+
             .progress-bar {
                 background-color: rgba(getColor($color, os), 0.4);
 
@@ -692,27 +686,27 @@ a.hired {
         }
     }
 
-    figure {
-        display: table;
-        width: 100%;
-        margin: 0 0 pxToRem(16);
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        grid-gap: pxToRem(32);
+    }
 
-        &:last-child {
-            margin-bottom: 0;
-        }
+    figure {
+        display: grid;
+        grid-template-columns: pxToRem(128) 1fr;
+        grid-template-rows: auto;
+        grid-gap: pxToRem(8);
+        margin: 0;
 
         .cell {
-            display: table-cell;
-            vertical-align: top;
-
-            &:first-child {
-                width: pxToRem(128);
-                padding: pxToRem(16);
-            }
+            padding: pxToRem(16);
+            overflow: hidden;
         }
+
         .strew {
             background-color: getColor($color, light);
-            // background-image: (../images/bg-competences.png);
             background-position: 50% 50%;
             background-repeat: no-repeat;
             border: pxToRem(2) solid getColor($color, dark);
@@ -726,16 +720,16 @@ a.hired {
                 @include transform(rotateZ(6deg) scale(0.9));
             }
         }
+
         figcaption {
-            display: table-cell;
-            vertical-align: top;
             margin: 0;
-            padding: 0 pxToRem(8) 0 pxToRem(6);
+            padding: 0 pxToRem(8) 0 0;
 
             h4 {
                 font-weight: 600;
                 margin-bottom: pxToRem(8);
             }
+
             p {
                 margin: 0;
 
@@ -747,6 +741,7 @@ a.hired {
                     line-height: pxToRem(14);
                 }
             }
+
             .progress-bar {
                 position: relative;
                 display: block;
@@ -791,48 +786,56 @@ a.hired {
                         width: 90%;
                     }
                 }
+
                 &.w80p {
                     &:after,
                     &::after {
                         width: 80%;
                     }
                 }
+
                 &.w75p {
                     &:after,
                     &::after {
                         width: 75%;
                     }
                 }
+
                 &.w70p {
                     &:after,
                     &::after {
                         width: 70%;
                     }
                 }
+
                 &.w60p {
                     &:after,
                     &::after {
                         width: 60%;
                     }
                 }
+
                 &.w50p {
                     &:after,
                     &::after {
                         width: 50%;
                     }
                 }
+
                 &.w40p {
                     &:after,
                     &::after {
                         width: 40%;
                     }
                 }
+
                 &.w30p {
                     &:after,
                     &::after {
                         width: 30%;
                     }
                 }
+
                 &.w25p {
                     &:after,
                     &::after {
@@ -862,25 +865,37 @@ a.hired {
                 }
             }
         }
+    }
 
-        @media screen and (min-width: 502px) {
-            display: inline-block;
-            vertical-align: top;
-            width: 50%;
-
-            .cell {
-                display: block;
-                margin-right: auto;
-                margin-left: auto;
-            }
-
-            figcaption {
-                display: block;
-            }
+    @media screen and (min-width: 502px) {
+        .grid {
+            grid-template-columns: repeat(2, 1fr);
         }
 
-        @media screen and (min-width: 752px) {
-            width: 33.333%;
+        .cell {
+            display: block;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        .strew {
+            width: pxToRem(128);
+            margin: 0 auto;
+        }
+
+        figure {
+            grid-template-columns: 1fr;
+            grid-template-rows: pxToRem(128 + 32) 1fr;
+
+            figcaption {
+                padding: 0 pxToRem(8);
+            }
+        }
+    }
+
+    @media screen and (min-width: 752px) {
+        .grid {
+            grid-template-columns: repeat(3, 1fr);
         }
     }
 }
@@ -921,6 +936,34 @@ a.hired {
             0 pxToRem(1) pxToRem(5) 0 rgba(getColor($color, dark), 0.12)
         );
 
+        &.to {
+            header {
+                background-color: getColor($experiences, toLight);
+                color: getColor($experiences, toDark);
+                a {
+                    color: getColor($experiences, toDark);
+
+                    img {
+                        width: 80%;
+                    }
+                }
+            }
+        }
+
+        &.fox {
+            header {
+                background-color: getColor($experiences, foxLight);
+                color: getColor($experiences, foxDark);
+                a {
+                    color: getColor($experiences, foxDark);
+
+                    img {
+                        width: 80%;
+                    }
+                }
+            }
+        }
+
         &.msg {
             header {
                 background-color: getColor($experiences, msgDark);
@@ -930,24 +973,7 @@ a.hired {
                 }
             }
         }
-        &.sus {
-            header {
-                background-color: getColor($experiences, susDark);
-                color: getColor($experiences, susLight);
-                a {
-                    color: getColor($experiences, susLight);
-                }
-            }
-        }
-        &.ani {
-            header {
-                background-color: getColor($experiences, aniDark);
-                color: getColor($experiences, aniLight);
-                a {
-                    color: getColor($experiences, aniLight);
-                }
-            }
-        }
+
         header {
             padding: pxToRem(22) 0;
 
@@ -966,6 +992,7 @@ a.hired {
                 }
             }
         }
+
         section {
             padding: pxToRem(8) pxToRem(16);
 
@@ -989,10 +1016,13 @@ a.hired {
                     line-height: pxToRem(16);
                 }
             }
+            ul {
+                padding-left: pxToRem(16);
+            }
         }
+
         footer {
             border-top: pxToRem(1) solid rgba(getColor($color, dark), 0.1);
-            // padding: pxToRem( 8 ) pxToRem( 16 ) pxToRem( 16 );
             padding: pxToRem(8);
             text-align: right;
             font-size: pxToRem(14);
@@ -1018,213 +1048,30 @@ a.hired {
         }
     }
 
-    .cell {
-        &:last-child {
-            article {
-                margin-bottom: 0;
-            }
-        }
-    }
-
-    #view {
-        padding: pxToRem(8) pxToRem(12);
-        margin-bottom: pxToRem(16);
-        @include box-shadow(
-            0 pxToRem(2) pxToRem(2) 0 rgba(getColor($color, dark), 0.14),
-            0 pxToRem(3) pxToRem(1) pxToRem(-2)
-                rgba(getColor($color, dark), 0.2),
-            0 pxToRem(1) pxToRem(5) 0 rgba(getColor($color, dark), 0.12)
-        );
-
-        img {
-            float: left;
-            width: pxToRem(64);
-            margin: 0 pxToRem(8) pxToRem(8) 0;
-        }
-        a {
-            float: right;
-            text-decoration: none;
-            font-size: pxToRem(14);
-            font-style: italic;
-            font-weight: 300;
-        }
-        h3 {
-            font-size: pxToRem(14);
-        }
-        p {
-            margin: 0;
-            font-style: italic;
-        }
-    }
-
-    #customers {
-        position: relative;
-        margin: 0 0 pxToRem(16);
-
-        div {
-            position: relative;
-            padding-top: 49.634%;
-        }
-
-        img {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            max-height: 100%;
-            width: auto;
-            @include transform(translateX(-50%));
-
-            &:nth-child(1) {
-                @include animation(animcusto1, 15s, linear, false, infinite);
-            }
-
-            &:nth-child(2) {
-                @include animation(animcusto2, 15s, linear, false, infinite);
-            }
-
-            &:nth-child(3) {
-                @include animation(animcusto3, 15s, linear, false, infinite);
-            }
-
-            &:nth-child(4) {
-                @include animation(animcusto4, 15s, linear, false, infinite);
-            }
-
-            &:nth-child(5) {
-                @include animation(animcusto5, 15s, linear, false, infinite);
-            }
-        }
-
-        @include keyframes('animcusto1') {
-            0%,
-            18% {
-                opacity: 1;
-            }
-            20%,
-            100% {
-                opacity: 0;
-            }
-        }
-
-        @include keyframes('animcusto2') {
-            0%,
-            18%,
-            40%,
-            100% {
-                opacity: 0;
-            }
-            20%,
-            38% {
-                opacity: 1;
-            }
-        }
-
-        @include keyframes('animcusto3') {
-            0%,
-            38%,
-            60%,
-            100% {
-                opacity: 0;
-            }
-            40%,
-            58% {
-                opacity: 1;
-            }
-        }
-
-        @include keyframes('animcusto4') {
-            0%,
-            58%,
-            80%,
-            100% {
-                opacity: 0;
-            }
-            60%,
-            78% {
-                opacity: 1;
-            }
-        }
-
-        @include keyframes('animcusto5') {
-            0%,
-            78%,
-            100% {
-                opacity: 0;
-            }
-            80%,
-            98% {
-                opacity: 1;
-            }
-        }
-
-        figcaption {
-            color: rgba(getColor($color, dark), 0.87);
-            font-style: italic;
-            font-weight: 300;
-            font-size: pxToRem(14);
-        }
-    }
-
     @media screen and (min-width: 502px) {
         display: block;
         background-color: getColor($color, grey);
 
         article {
             background-color: getColor($color, light);
-            margin-right: pxToRem(16);
-            margin-left: pxToRem(16);
         }
-        .row {
-            display: table;
-            margin-right: pxToRem(16);
-            margin-left: pxToRem(16);
-        }
-        .cell {
-            display: table-cell;
-            vertical-align: top;
-            width: 50%;
-            padding-right: pxToRem(8);
 
-            &:last-child {
-                padding-right: 0;
-                padding-left: pxToRem(8);
-            }
-            article {
-                margin: 0;
-            }
-        }
-        #customers {
-            width: 66%;
-            max-width: pxToRem(364);
-            margin-right: auto;
-            margin-left: auto;
+        .row {
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: auto;
+            grid-gap: pxToRem(32);
         }
     }
     @media screen and (min-width: 1024px) {
-        .msg {
-            display: inline-block;
-            vertical-align: top;
-            width: 66.666%;
-            margin-right: 0;
-            margin-left: 0;
+        .to {
+            width: 80%;
+            margin-right: auto;
+            margin-left: auto;
         }
-        .row {
-            display: inline-block;
-            vertical-align: top;
-            width: 33.333%;
-            margin-right: 0;
-            margin-left: 0;
-        }
-        .cell {
-            display: block;
-            width: 100%;
-            padding-right: 0;
-            padding-right: 0;
-            padding-left: 16px;
 
-            article {
-                margin-bottom: pxToRem(32);
-            }
+        .row {
+            grid-template-columns: repeat(2, 1fr);
         }
     }
 }
@@ -1259,11 +1106,15 @@ a.hired {
         }
     }
 
-    @media screen and (min-width: 376px) {
-        .cell {
-            width: 86%;
-            margin-right: auto;
-            margin-left: auto;
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        grid-column-gap: pxToRem(16);
+        grid-row-gap: pxToRem(32);
+
+        & + .grid {
+            margin-top: pxToRem(32);
         }
     }
 
@@ -1271,7 +1122,6 @@ a.hired {
         position: relative;
         text-align: center;
         margin-top: pxToRem(40);
-        margin-bottom: pxToRem(24);
         font-size: pxToRem(28);
         line-height: pxToRem(28);
 
@@ -1317,29 +1167,30 @@ a.hired {
             color: rgba(getColor($color, dark), 0.87);
         }
     }
-    figure {
-        margin: 0 0 pxToRem(16);
-        padding-bottom: pxToRem(16);
-        border-bottom: pxToRem(1) solid rgba(getColor($color, dark), 0.25);
 
-        &:last-child {
-            border-bottom: 0;
-        }
+    figure {
+        margin: 0;
+        padding-bottom: pxToRem(16);
 
         figcaption {
             margin: pxToRem(8) pxToRem(8) 0;
+
             h4 {
                 margin: 0;
             }
+
             p {
                 margin-top: pxToRem(8);
                 margin-bottom: 0;
             }
+
             ul {
                 margin: pxToRem(8) 0 0;
                 padding: 0;
-                padding-left: pxToRem(18);
+                // padding-left: pxToRem(18);
+                list-style: none;
             }
+
             li {
                 padding-bottom: pxToRem(8);
 
@@ -1347,53 +1198,30 @@ a.hired {
                     padding-bottom: 0;
                 }
             }
+
             a {
                 color: rgba(getColor($color, dark), 0.87);
                 text-decoration: underline;
             }
         }
     }
-    .cell {
-        &:last-child {
-            figure {
-                &:last-child {
-                    margin: 0;
-                    padding-bottom: 0;
-                }
+
+    @media screen and (min-width: 376px) {
+        .grid {
+            grid-template-columns: repeat(2, 1fr);
+
+            h3 {
+                grid-column: span 2;
             }
         }
     }
-    @media screen and (min-width: 502px) {
-        .cell {
-            width: 100%;
-        }
 
-        figure {
-            display: inline-block;
-            vertical-align: top;
-            width: 50%;
-            border: none;
-            margin: 0;
-
-            &:nth-child(odd) {
-                padding: 0 pxToRem(16) pxToRem(16) pxToRem(8);
-            }
-            &:nth-child(even) {
-                padding: 0 pxToRem(8) pxToRem(16) pxToRem(16);
-            }
-        }
-    }
     @media screen and (min-width: 752px) {
-        .cell {
-            padding-right: pxToRem(8);
-            padding-left: pxToRem(8);
-        }
-        figure {
-            width: 25%;
+        .grid {
+            grid-template-columns: repeat(4, 1fr);
 
-            &:nth-child(odd),
-            &:nth-child(even) {
-                padding: 0 pxToRem(8) pxToRem(8);
+            h3 {
+                grid-column: span 4;
             }
         }
     }
@@ -1402,7 +1230,7 @@ a.hired {
 #contact {
     position: relative;
     width: 100%;
-    padding: pxToRem(32) 0 0;
+    padding: pxToRem(32) 0 pxToRem(16);
     @include box-shadow(0 0 pxToRem(8) rgba(getColor($color, dark), 0.5));
 
     h2 {
@@ -1424,6 +1252,13 @@ a.hired {
             content: 'contact_mail';
             color: getColor($color, green);
         }
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        grid-gap: pxToRem(16);
     }
 
     address {
@@ -1450,18 +1285,21 @@ a.hired {
                 @extend .material-icons;
             }
         }
+
         .tel {
             &:before,
             &::before {
                 content: 'phone';
             }
         }
+
         .home {
             &:before,
             &::before {
                 content: 'home';
             }
         }
+
         .vcard {
             &:before,
             &::before {
@@ -1472,7 +1310,7 @@ a.hired {
 
     form {
         display: block;
-        padding: pxToRem(8);
+        padding: 0 pxToRem(8);
 
         .field {
             position: relative;
@@ -1591,6 +1429,7 @@ a.hired {
                 }
             }
         }
+
         #status {
             margin: 0;
             padding: 0;
@@ -1623,7 +1462,7 @@ a.hired {
     }
 
     aside {
-        margin-top: pxToRem(16);
+        padding: 0 pxToRem(8);
 
         h3 {
             font-weight: 400;
@@ -1636,12 +1475,14 @@ a.hired {
             margin: 0;
             padding: 0;
         }
+
         li {
             display: table-cell;
             width: 20%;
             text-align: center;
             vertical-align: middle;
         }
+
         a {
             display: block !important;
             visibility: visible !important;
@@ -1649,14 +1490,29 @@ a.hired {
             width: 100% !important;
             height: 100% !important;
         }
+
         img {
             width: auto;
             margin: 0 auto pxToRem(16);
             height: pxToRem(40);
         }
     }
+
     @media screen and (min-width: 502px) {
+        .grid {
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-areas:
+                'address form'
+                'aside form';
+        }
+
+        address {
+            grid-area: address;
+        }
+
         form {
+            grid-area: form;
+
             .field {
                 &:nth-child(1),
                 &:nth-child(2) {
@@ -1666,21 +1522,19 @@ a.hired {
                 }
             }
         }
+
+        aside {
+            grid-area: aside;
+        }
     }
+
     @media screen and (min-width: 752px) {
-        .row {
-            display: table;
-            width: 100%;
+        .grid {
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-areas: 'address form aside';
         }
-        address {
-            display: table-cell;
-            vertical-align: top;
-            width: 33.333%;
-        }
+
         form {
-            display: table-cell;
-            vertical-align: top;
-            width: 33.333%;
             .field {
                 &:nth-child(1),
                 &:nth-child(2) {
@@ -1688,11 +1542,6 @@ a.hired {
                     width: 100%;
                 }
             }
-        }
-        aside {
-            display: table-cell;
-            vertical-align: top;
-            width: 33.333%;
         }
     }
 }

@@ -48,7 +48,7 @@ composer:	## Install or update the composer dependencies
 	$(RUN) composer install --no-interaction --prefer-dist --optimize-autoloader
 
 node:	## Install or update the node dependencies
-	$(RUN) npm install --ignore-engines
+	$(RUN) yarn install --ignore-engines --frozen-lockfile
 
 front:	## Run the buil for the front
 	$(RUN) npm run dev
@@ -67,8 +67,8 @@ seed: migration	## Artisan migrate then seed through docker
 clearLogs:	## Clear the logs for the new run
 	$(RUN) rm -f storage/logs/*
 
-test: ## Run the PHPUnit
-	$(RUN) vendor/bin/phpunit --stderr
+test: ## Run the PHPUnit with coverage support with the regex \s+Lines:\s+(\d+.\d+\%) \(\d
+	$(RUN) vendor/bin/phpunit --stderr --coverage-text --colors=never
 
 cs: ## Run the PHP-CS-Fixer and Prettier
 	$(RUN) php artisan fixer:fix --no-interaction --dry-run --diff --using-cache=no
