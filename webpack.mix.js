@@ -42,8 +42,6 @@ mix.disableNotifications().options({
 
 mix.copy('resources/img', 'public/images')
     // .copy('resources/img/favicon.ico', 'public')
-    .copy('resources/files', 'public/files')
-    .copy('resources/videos', 'public/videos')
 
 mix.js('resources/js/app.js', 'public/js')
     .sourceMaps(appTypeProd, 'eval-source-map')

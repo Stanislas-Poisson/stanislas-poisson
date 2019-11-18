@@ -94,9 +94,9 @@
                 </div>
             </div>
         </div>
-        <video loop autoplay poster="{{ asset('videos/poster-introduction.jpg') }}">
-            <source src="{{ asset('videos/introduction-hd.mp4') }}" type="video/mp4">
-            <source src="{{ asset('videos/introduction-hd.webm') }}" type="video/webm">
+        <video loop autoplay poster="{{ asset('storage/videos/poster-introduction.jpg') }}">
+            <source src="{{ asset('storage/videos/introduction-hd.mp4') }}" type="video/mp4">
+            <source src="{{ asset('storage/videos/introduction-hd.webm') }}" type="video/webm">
         </video>
     </section>
     <section id="about">
@@ -112,7 +112,7 @@
                     <h3>Vous cherchez un développeur ?</h3>
                     <p>Ça tombe bien ! Passionné par le monde du web, j'ai acquis des compétences au fil de mes expériences pro et autodidacte.<br>
                     J'aime découvrir, apprendre et expérimenter le développement web et web-design au fur et à mesure des projets.</p>
-                    <p class="down"><a href="{{ asset('files/stanislas-poisson-cv.pdf') }}" title="Téléchargez mon Curriculum Vitae." target="_blank" rel="nofollow">Télécharger mon cv</a></p>
+                    <p class="down"><a href="{{ asset('storage/files/stanislas-poisson-cv.pdf') }}" title="Téléchargez mon Curriculum Vitae." target="_blank" rel="nofollow">Télécharger mon cv</a></p>
                 </div>
             </div>
             <p class="psst"><em>Psst ! Vous savez quoi ? Si mon profil vous intéresse, <a href="#contact" class="hired" title="Contactez-moi directement pour un poste." rel="nofollow">je suis <strong>disponible</strong> dès maintenant !</a></em></p>
@@ -668,7 +668,7 @@
                         <span itemprop="streetAddress">Quartier des Fontaines</span>, <span itemprop="postalCode">37200</span> <span itemprop="addressLocality">Tours</span>
                         <meta content="Centre, France" itemprop="addressCountry">
                     </p>
-                    <p class="vcard"><a href="{{ asset('files/stanislas-poisson-vcard.vcf') }}" title="Télécharger ma vCard" target="_blank" rel="nofollow">Ajouter moi à vos contacts</a></p>
+                    <p class="vcard"><a href="{{ asset('storage/files/stanislas-poisson-vcard.vcf') }}" title="Télécharger ma vCard" target="_blank" rel="nofollow">Ajouter moi à vos contacts</a></p>
                 </address>
                 {{ Form::open(['route' => ['home.store'], 'method' => 'post', 'autocomplete' => 'off']) }}
 
