@@ -562,7 +562,20 @@
             <div class="grid" itemscope itemtype="http://schema.org/ImageGallery">
                 <h3 class="pro" itemprop="name">Professionnel</h3>
                 <figure itemprop="workExample" itemscope itemtype="http://schema.org/CreativeWork">
-                    <img src="{{ asset('images/formations-presentielle-sd.jpg') }}" srcset="{{ asset('images/formations-presentielle-xd-2x.jpg') }} 860w,{{ asset('images/formations-presentielle-hd-2x.jpg') }} 750w,{{ asset('images/formations-presentielle-md-2x.jpg') }} 702w,{{ asset('images/formations-presentielle-ld-2x.jpg') }} 470w,{{ asset('images/formations-presentielle-sd-2x.jpg') }} 456w,{{ asset('images/formations-presentielle-xd.jpg') }} 430w,{{ asset('images/formations-presentielle-hd.jpg') }} 375w,{{ asset('images/formations-presentielle-md.jpg') }} 351w,{{ asset('images/formations-presentielle-ld.jpg') }} 235w,{{ asset('images/formations-presentielle-sd.jpg') }} 228w" sizes="(max-width: 375px) 100vw, (max-width: 501px) 85vw, (max-width: 751px) 46vw, (max-width: 1023px) 23vw, 228px" alt="Vignette d'une formation présentielle" itemprop="thumbnailUrl">
+                    <img src="{{ asset('images/achievements-team-officine-sd.jpg') }}" alt="Vignette de la page d'acceuil de la plateforme" itemprop="thumbnailUrl">
+                    <figcaption itemprop="description">
+                        <h4 itemprop="name">Plateforme de recrutement</h4>
+                        <p>Plateforme de mise en relations entre des candidats et des recruteurs dans le millieu de la pharmacie principalement d'officine.</p>
+                        <ul>
+                            <li><a href="https://www.team-officine.fr/" title="Voir la plateforme Team Officine" target="_blank" itemprop="url">Voir la plateforme Team Officine</a></li>
+                        </ul>
+                        <meta content="Website" itemprop="genre">
+                        <meta content="2018-05-18" itemprop="dateCreated">
+                        <meta content="2019-02-20" itemprop="datePublished">
+                    </figcaption>
+                </figure>
+                <figure itemprop="workExample" itemscope itemtype="http://schema.org/CreativeWork">
+                    <img src="{{ asset('images/formations-presentielle-sd.jpg') }}" alt="Vignette d'une formation présentielle" itemprop="thumbnailUrl">
                     <figcaption itemprop="description">
                         <h4 itemprop="name">Formations présentielles</h4>
                         <p>Formations en direct et en temps réel via des outils digitaux, permettant une meilleure imprégnation et implications des participants.<br>Réalisations pour Alter&Go, Bouygues Immobilier ou encore Bouygues Construction.</p>
@@ -589,15 +602,6 @@
                         </ul>
                         <meta content="Website" itemprop="genre">
                         <meta content="2016-07-18" itemprop="datePublished">
-                    </figcaption>
-                </figure>
-                <figure itemprop="workExample" itemscope itemtype="http://schema.org/CreativeWork">
-                    <img src="{{ asset('images/les-essentiels-de-la-construction-sd.jpg') }}" srcset="{{ asset('images/les-essentiels-de-la-construction-xd-2x.jpg') }} 860w,{{ asset('images/les-essentiels-de-la-construction-hd-2x.jpg') }} 750w,{{ asset('images/les-essentiels-de-la-construction-md-2x.jpg') }} 702w,{{ asset('images/les-essentiels-de-la-construction-ld-2x.jpg') }} 470w,{{ asset('images/les-essentiels-de-la-construction-sd-2x.jpg') }} 456w,{{ asset('images/les-essentiels-de-la-construction-xd.jpg') }} 430w,{{ asset('images/les-essentiels-de-la-construction-hd.jpg') }} 375w,{{ asset('images/les-essentiels-de-la-construction-md.jpg') }} 351w,{{ asset('images/les-essentiels-de-la-construction-ld.jpg') }} 235w,{{ asset('images/les-essentiels-de-la-construction-sd.jpg') }} 228w" sizes="(max-width: 375px) 100vw, (max-width: 501px) 85vw, (max-width: 751px) 46vw, (max-width: 1023px) 23vw, 228px" alt="Vignette du module de formation des Essentiels de la Construction" itemprop="thumbnailUrl">
-                    <figcaption itemprop="description">
-                        <h4 itemprop="name">Les Essentiels de la Construction</h4>
-                        <p>Plateforme de fiches d'informations au formats vidéo réaliser pour Bouygues Construction afin d'expliquer des choix techniques à un perssonel comptable.<br>Tracking au format SCORM 2004 sur la LRS du client.</p>
-                        <meta content="Module HTML5 - SCORM 2004" itemprop="genre">
-                        <meta content="2015-10-01" itemprop="datePublished">
                     </figcaption>
                 </figure>
             </div>
