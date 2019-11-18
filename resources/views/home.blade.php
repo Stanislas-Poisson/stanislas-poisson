@@ -105,7 +105,7 @@
             <div class="row ini">
                 <div class="cell">
                     <div id="avatar">
-                        <img src="{{ asset('images/avatar.jpg') }}" srcset="{{ asset('images/avatar-hd-2x.jpg') }} 540w,{{ asset('images/avatar-2x.jpg') }} 416w,{{ asset('images/avatar-sd-2x.jpg') }} 380w,{{ asset('images/avatar-hd.jpg') }} 270w,{{ asset('images/avatar.jpg') }} 208w,{{ asset('images/avatar-sd.jpg') }} 190w" sizes="(max-width: 376px) 54vw, 40vw" itemprop="image" alt="Ma photo de profil">
+                        <img src="{{ asset('images/avatar.jpg') }}" itemprop="image" alt="Ma photo de profil">
                     </div>
                 </div>
                 <div class="cell">
@@ -140,7 +140,7 @@
                     <figure>
                         <div class="cell">
                             <div class="strew">
-                                <img src="{{ asset('images/html5.jpg') }}" srcset="{{ asset('images/html5-2x.jpg') }} 184w,{{ asset('images/html5.jpg') }} 92w" sizes="92px" alt="Logo de l'html 5">
+                                <img src="{{ asset('images/html5.jpg') }}" alt="Logo de l'html 5">
                             </div>
                         </div>
                         <figcaption>
@@ -155,7 +155,7 @@
                     <figure>
                         <div class="cell">
                             <div class="strew">
-                                <img src="{{ asset('images/css3.jpg') }}" srcset="{{ asset('images/css3-2x.jpg') }} 184w,{{ asset('images/css3.jpg') }} 92w" sizes="92px" alt="Logo du css 3">
+                                <img src="{{ asset('images/css3.jpg') }}" alt="Logo du css 3">
                             </div>
                         </div>
                         <figcaption>
@@ -170,12 +170,12 @@
                     <figure>
                         <div class="cell">
                             <div class="strew">
-                                <img src="{{ asset('images/javascript.jpg') }}" srcset="{{ asset('images/javascript-2x.jpg') }} 184w,{{ asset('images/javascript.jpg') }} 92w" sizes="92px" alt="Logo du JavaScript">
+                                <img src="{{ asset('images/javascript.jpg') }}" alt="Logo du JavaScript">
                             </div>
                         </div>
                         <figcaption>
-                            <h4>JavaScript - ECMAScript 5 / 6</h4>
-                            <p>Le <strong>JavaScript</strong> permet d'ajouter une touche d'intéraction avec l'utilisateur. Une touche de <strong>jQuery</strong> ou de <strong>Zepto</strong> suivant les navigateurs cibles accélere le code.</p>
+                            <h4>JavaScript - ECMAScript 5 / 6 - Vue.js</h4>
+                            <p>Le <strong>JavaScript</strong> permet d'ajouter une touche d'intéraction avec l'utilisateur. <strong>Vue.js</strong> permet d'obtenir une interface interactive et réactive aux changements.</p>
                             <div class="progress-bar w75p">
                                 <progress value="75" max="100"></progress>
                             </div>
@@ -185,7 +185,7 @@
                     <figure>
                         <div class="cell">
                             <div class="strew">
-                                <img src="{{ asset('images/php.jpg') }}" srcset="{{ asset('images/php-2x.jpg') }} 184w,{{ asset('images/php.jpg') }} 92w" sizes="92px" alt="Logo du php">
+                                <img src="{{ asset('images/php.jpg') }}" alt="Logo du php">
                             </div>
                         </div>
                         <figcaption>
@@ -200,7 +200,7 @@
                     <figure>
                         <div class="cell">
                             <div class="strew">
-                                <img src="{{ asset('images/mysql.jpg') }}" srcset="{{ asset('images/mysql-2x.jpg') }} 184w,{{ asset('images/mysql.jpg') }} 92w" sizes="92px" alt="Logo de mysql">
+                                <img src="{{ asset('images/mysql.jpg') }}" alt="Logo de mysql">
                             </div>
                         </div>
                         <figcaption>
@@ -215,7 +215,7 @@
                     <figure>
                         <div class="cell">
                             <div class="strew">
-                                <img src="{{ asset('images/bash.jpg') }}" srcset="{{ asset('images/bash-2x.jpg') }} 184w,{{ asset('images/bash.jpg') }} 92w" sizes="92px" alt="Logo de bash">
+                                <img src="{{ asset('images/bash.jpg') }}" alt="Logo de bash">
                             </div>
                         </div>
                         <figcaption>
@@ -235,13 +235,12 @@
                     <figure>
                         <div class="cell">
                             <div class="strew">
-                                <img src="{{ asset('images/sublime-text.jpg') }}" srcset="{{ asset('images/sublime-text-2x.jpg') }} 184w,{{ asset('images/sublime-text.jpg') }} 92w" sizes="92px" alt="Logo du sublime text">
+                                <img src="{{ asset('images/visual-code-studio.svg') }}" alt="Logo du visual code studio">
                             </div>
                         </div>
                         <figcaption>
-                            <h4>Sublime Text 2 / 3</h4>
-                            <p>Editeur de texte sobre et léger, rendu puissant grâce aux plugins.<br>
-                            <strong>Visual Studio</strong> ou encore <strong>Atom</strong> sont des <strong>IDE</strong> et par conséquent lourd à manipuler.</p>
+                            <h4>Visual Code Studio</h4>
+                            <p>IDE sobre et léger, rendu puissant grâce aux plugins.</p>
                             <div class="progress-bar w90p">
                                 <progress value="90" max="100"></progress>
                             </div>
@@ -251,7 +250,7 @@
                     <figure>
                         <div class="cell">
                             <div class="strew">
-                                <img src="{{ asset('images/apache-node.jpg') }}" srcset="{{ asset('images/apache-node-2x.jpg') }} 184w,{{ asset('images/apache-node.jpg') }} 92w" sizes="92px" alt="Fusion du logo d'apache et de node.js">
+                                <img src="{{ asset('images/apache-node.jpg') }}" alt="Fusion du logo d'apache et de node.js">
                             </div>
                         </div>
                         <figcaption>
@@ -266,7 +265,7 @@
                     <figure>
                         <div class="cell">
                             <div class="strew">
-                                <img src="{{ asset('images/git.jpg') }}" srcset="{{ asset('images/git-2x.jpg') }} 184w,{{ asset('images/git.jpg') }} 92w" sizes="92px" alt="Logo de git">
+                                <img src="{{ asset('images/git.jpg') }}" alt="Logo de git">
                             </div>
                         </div>
                         <figcaption>
@@ -281,7 +280,7 @@
                     <figure>
                         <div class="cell">
                             <div class="strew">
-                                <img src="{{ asset('images/google-drive.jpg') }}" srcset="{{ asset('images/google-drive-2x.jpg') }} 184w,{{ asset('images/google-drive.jpg') }} 92w" sizes="92px" alt="Logo du google drive">
+                                <img src="{{ asset('images/google-drive.jpg') }}" alt="Logo du google drive">
                             </div>
                         </div>
                         <figcaption>
@@ -295,7 +294,7 @@
                     <figure>
                         <div class="cell">
                             <div class="strew">
-                                <img src="{{ asset('images/serif-affinity-designer.jpg') }}" srcset="{{ asset('images/serif-affinity-designer-2x.jpg') }} 184w,{{ asset('images/serif-affinity-designer.jpg') }} 92w" sizes="92px" alt="Logo de affinity designer de Serif">
+                                <img src="{{ asset('images/serif-affinity-designer.jpg') }}" alt="Logo de affinity designer de Serif">
                             </div>
                         </div>
                         <figcaption>
@@ -309,7 +308,7 @@
                     <figure>
                         <div class="cell">
                             <div class="strew">
-                                <img src="{{ asset('images/adobe-photoshop.jpg') }}" srcset="{{ asset('images/adobe-photoshop-2x.jpg') }} 184w,{{ asset('images/adobe-photoshop.jpg') }} 92w" sizes="92px" alt="Logo de photoshop d'adobe">
+                                <img src="{{ asset('images/adobe-photoshop.jpg') }}" alt="Logo de photoshop d'adobe">
                             </div>
                         </div>
                         <figcaption>
@@ -323,7 +322,7 @@
                     <figure>
                         <div class="cell">
                             <div class="strew">
-                                <img src="{{ asset('images/adobe-illustrator.jpg') }}" srcset="{{ asset('images/adobe-illustrator-2x.jpg') }} 184w,{{ asset('images/adobe-illustrator.jpg') }} 92w" sizes="92px" alt="Logo d'illustrator d'adobe">
+                                <img src="{{ asset('images/adobe-illustrator.jpg') }}" alt="Logo d'illustrator d'adobe">
                             </div>
                         </div>
                         <figcaption>
@@ -337,7 +336,7 @@
                     <figure>
                         <div class="cell">
                             <div class="strew">
-                                <img src="{{ asset('images/adobe-premier.jpg') }}" srcset="{{ asset('images/adobe-premier-2x.jpg') }} 184w,{{ asset('images/adobe-premier.jpg') }} 92w" sizes="92px" alt="Logo de premier d'adobe">
+                                <img src="{{ asset('images/adobe-premier.jpg') }}" alt="Logo de premier d'adobe">
                             </div>
                         </div>
                         <figcaption>
@@ -356,7 +355,7 @@
                     <figure>
                         <div class="cell">
                             <div class="strew">
-                                <img src="{{ asset('images/linux.jpg') }}" srcset="{{ asset('images/linux-2x.jpg') }} 184w,{{ asset('images/linux.jpg') }} 92w" sizes="92px" alt="Logo de linux représentant un pingouin">
+                                <img src="{{ asset('images/linux.jpg') }}" alt="Logo de linux représentant un pingouin">
                             </div>
                         </div>
                         <figcaption>
@@ -370,7 +369,7 @@
                     <figure>
                         <div class="cell">
                             <div class="strew">
-                                <img src="{{ asset('images/windows.jpg') }}" srcset="{{ asset('images/windows-2x.jpg') }} 184w,{{ asset('images/windows.jpg') }} 92w" sizes="92px" alt="Logo de windows 10">
+                                <img src="{{ asset('images/windows.jpg') }}" alt="Logo de windows 10">
                             </div>
                         </div>
                         <figcaption>
@@ -384,7 +383,7 @@
                     <figure>
                         <div class="cell">
                             <div class="strew">
-                                <img src="{{ asset('images/mac-os.jpg') }}" srcset="{{ asset('images/mac-os-2x.jpg') }} 184w,{{ asset('images/mac-os.jpg') }} 92w" sizes="92px" alt="Logo de mac os">
+                                <img src="{{ asset('images/mac-os.jpg') }}" alt="Logo de mac os">
                             </div>
                         </div>
                         <figcaption>
@@ -398,7 +397,7 @@
                     <figure>
                         <div class="cell">
                             <div class="strew">
-                                <img src="{{ asset('images/network.jpg') }}" srcset="{{ asset('images/network-2x.jpg') }} 184w,{{ asset('images/network.jpg') }} 92w" sizes="92px" alt="Logo schématique d'un réseau">
+                                <img src="{{ asset('images/network.jpg') }}" alt="Logo schématique d'un réseau">
                             </div>
                         </div>
                         <figcaption>
@@ -513,7 +512,7 @@
                     <header>
                         <h3>
                             <a href="https://www.my-serious-game.com/" title="Aller voir l'entreprise" target="_blank" rel="nofollow" itemprop="url">
-                                <img src="{{ asset('images/my-serious-game-sd.jpg') }}" itemprop="image" srcset="{{ asset('images/my-serious-game-xd-2x.jpg') }} 1850w,{{ asset('images/my-serious-game-hd-2x.jpg') }} 1324w,{{ asset('images/my-serious-game-xd.jpg') }} 991w,{{ asset('images/my-serious-game-hd.jpg') }} 662w,{{ asset('images/my-serious-game-md.jpg') }} 501w,{{ asset('images/my-serious-game-ld.jpg') }} 488w,{{ asset('images/my-serious-game-sd.jpg') }} 315w" sizes="(max-width: 501px) 100vw, (max-width: 1023px) 93vw, 661px" alt="MY‑SERIOUS‑GAME">
+                                <img src="{{ asset('images/my-serious-game-sd.jpg') }}" itemprop="image" alt="MY‑SERIOUS‑GAME">
                                 <span itemprop="name">MY‑SERIOUS‑GAME</span>
                             </a>
                         </h3>
@@ -584,7 +583,7 @@
                     </figcaption>
                 </figure>
                 <figure itemprop="workExample" itemscope itemtype="http://schema.org/CreativeWork">
-                    <img src="{{ asset('images/concours-dcb-2016-sd.jpg') }}" srcset="{{ asset('images/concours-dcb-2016-xd-2x.jpg') }} 860w,{{ asset('images/concours-dcb-2016-hd-2x.jpg') }} 750w,{{ asset('images/concours-dcb-2016-md-2x.jpg') }} 702w,{{ asset('images/concours-dcb-2016-ld-2x.jpg') }} 470w,{{ asset('images/concours-dcb-2016-sd-2x.jpg') }} 456w,{{ asset('images/concours-dcb-2016-xd.jpg') }} 430w,{{ asset('images/concours-dcb-2016-hd.jpg') }} 375w,{{ asset('images/concours-dcb-2016-md.jpg') }} 351w,{{ asset('images/concours-dcb-2016-ld.jpg') }} 235w,{{ asset('images/concours-dcb-2016-sd.jpg') }} 228w" sizes="(max-width: 375px) 100vw, (max-width: 501px) 85vw, (max-width: 751px) 46vw, (max-width: 1023px) 23vw, 228px" alt="Vignette du site Concours DCB 2016" itemprop="thumbnailUrl">
+                    <img src="{{ asset('images/concours-dcb-2016-sd.jpg') }}" alt="Vignette du site Concours DCB 2016" itemprop="thumbnailUrl">
                     <figcaption itemprop="description">
                         <h4 itemprop="name">Concours DCB 2016</h4>
                         <p>Version digital d'un concours pour le Groupe Vinci. Sous le format d'un jeu les participants doivent retrouver les erreurs de sécurités qui se sont glisser sur les planches.</p>
@@ -593,7 +592,7 @@
                     </figcaption>
                 </figure>
                 <figure itemprop="workExample" itemscope itemtype="http://schema.org/CreativeWork">
-                    <img src="{{ asset('images/bytubes-sd.jpg') }}" srcset="{{ asset('images/bytubes-xd-2x.jpg') }} 860w,{{ asset('images/bytubes-hd-2x.jpg') }} 750w,{{ asset('images/bytubes-md-2x.jpg') }} 702w,{{ asset('images/bytubes-ld-2x.jpg') }} 470w,{{ asset('images/bytubes-sd-2x.jpg') }} 456w,{{ asset('images/bytubes-xd.jpg') }} 430w,{{ asset('images/bytubes-hd.jpg') }} 375w,{{ asset('images/bytubes-md.jpg') }} 351w,{{ asset('images/bytubes-ld.jpg') }} 235w,{{ asset('images/bytubes-sd.jpg') }} 228w" sizes="(max-width: 375px) 100vw, (max-width: 501px) 85vw, (max-width: 751px) 46vw, (max-width: 1023px) 23vw, 228px" alt="Vignette du site de partage de vidéo BYtubES" itemprop="thumbnailUrl">
+                    <img src="{{ asset('images/bytubes-sd.jpg') }}" alt="Vignette du site de partage de vidéo BYtubES" itemprop="thumbnailUrl">
                     <figcaption itemprop="description">
                         <h4 itemprop="name">BYtubES</h4>
                         <p>Plateforme de partage de vidéos online demandée par les compagnons de Bouygues Énergies et Services pour transmettre plus rapidement et facilement les bonnes pratiques.</p>
@@ -608,7 +607,7 @@
             <div class="grid" itemscope itemtype="http://schema.org/ImageGallery">
                 <h3 class="per" itemprop="name">Personnel</h3>
                 <figure itemprop="workExample" itemscope itemtype="http://schema.org/CreativeWork">
-                    <img src="{{ asset('images/pptx-enigma-sd.jpg') }}" srcset="{{ asset('images/pptx-enigma-xd-2x.jpg') }} 860w,{{ asset('images/pptx-enigma-hd-2x.jpg') }} 750w,{{ asset('images/pptx-enigma-md-2x.jpg') }} 702w,{{ asset('images/pptx-enigma-ld-2x.jpg') }} 470w,{{ asset('images/pptx-enigma-sd-2x.jpg') }} 456w,{{ asset('images/pptx-enigma-xd.jpg') }} 430w,{{ asset('images/pptx-enigma-hd.jpg') }} 375w,{{ asset('images/pptx-enigma-md.jpg') }} 351w,{{ asset('images/pptx-enigma-ld.jpg') }} 235w,{{ asset('images/pptx-enigma-sd.jpg') }} 228w" sizes="(max-width: 375px) 100vw, (max-width: 501px) 85vw, (max-width: 751px) 46vw, (max-width: 1023px) 23vw, 228px" alt="Logo de pptx-enigma" itemprop="thumbnailUrl">
+                    <img src="{{ asset('images/pptx-enigma-sd.jpg') }}" alt="Logo de pptx-enigma" itemprop="thumbnailUrl">
                     <figcaption itemprop="description">
                         <h4 itemprop="name">PPTX-Enigma</h4>
                         <p>PPTX-Enigma est une librairie PHP destiner à l'extraction de voix-off des zones de commentaires des PowerPoints.</p>
@@ -620,7 +619,7 @@
                 </figure>
                 <figure itemprop="workExample" itemscope itemtype="http://schema.org/CreativeWork">
                     <div class="bgLight">
-                        <img src="{{ asset('images/KMark-sd.jpg') }}" srcset="{{ asset('images/KMark-sd.jpg') }} 228w,{{ asset('images/KMark-ld.jpg') }} 235w,{{ asset('images/KMark-md.jpg') }} 351w,{{ asset('images/KMark-hd.jpg') }} 375w,{{ asset('images/KMark-xd.jpg') }} 430w,{{ asset('images/KMark-sd-2x.jpg') }} 456w,{{ asset('images/KMark-ld-2x.jpg') }} 470w,{{ asset('images/KMark-md-2x.jpg') }} 702w,{{ asset('images/KMark-hd-2x.jpg') }} 750w,{{ asset('images/KMark-xd-2x.jpg') }} 860w" sizes="(max-width: 375px) 100vw, (max-width: 501px) 85vw, (max-width: 751px) 46vw, (max-width: 1023px) 23vw, 228px" alt="Logo de kmark" itemprop="thumbnailUrl">
+                        <img src="{{ asset('images/KMark-sd.jpg') }}" alt="Logo de kmark" itemprop="thumbnailUrl">
                     </div>
                     <figcaption itemprop="description">
                         <h4 itemprop="name">KMark <em>v<span itemprop="version">0.5 (beta)</span></em></h4>
@@ -632,7 +631,7 @@
                     </figcaption>
                 </figure>
                 <figure itemprop="workExample" itemscope itemtype="http://schema.org/CreativeWork">
-                    <img src="{{ asset('images/Papillons-au-Clair-de-Lune-sd.jpg') }}" srcset="{{ asset('images/Papillons-au-Clair-de-Lune-xd-2x.jpg') }} 860w,{{ asset('images/Papillons-au-Clair-de-Lune-hd-2x.jpg') }} 750w,{{ asset('images/Papillons-au-Clair-de-Lune-md-2x.jpg') }} 702w,{{ asset('images/Papillons-au-Clair-de-Lune-ld-2x.jpg') }} 470w,{{ asset('images/Papillons-au-Clair-de-Lune-sd-2x.jpg') }} 456w,{{ asset('images/Papillons-au-Clair-de-Lune-xd.jpg') }} 430w,{{ asset('images/Papillons-au-Clair-de-Lune-hd.jpg') }} 375w,{{ asset('images/Papillons-au-Clair-de-Lune-md.jpg') }} 351w,{{ asset('images/Papillons-au-Clair-de-Lune-ld.jpg') }} 235w,{{ asset('images/Papillons-au-Clair-de-Lune-sd.jpg') }} 228w" sizes="(max-width: 375px) 100vw, (max-width: 501px) 85vw, (max-width: 751px) 46vw, (max-width: 1023px) 23vw, 228px" alt="Vignette de l'artwork Papillons au clair de lune" itemprop="thumbnailUrl">
+                    <img src="{{ asset('images/Papillons-au-Clair-de-Lune-sd.jpg') }}" alt="Vignette de l'artwork Papillons au clair de lune" itemprop="thumbnailUrl">
                     <figcaption itemprop="description">
                         <h4 itemprop="name">Papillons au clair de lune</h4>
                         <p>Un fond d'écran créer pour un site internet, lune et décor se reflétant dans l'eau légèrement trouble de la vie, agrémenter de papillons lunaires.</p>
@@ -644,7 +643,7 @@
                     </figcaption>
                 </figure>
                 <figure itemprop="workExample" itemscope itemtype="http://schema.org/CreativeWork">
-                    <img src="{{ asset('images/Id-Fight-sd.jpg') }}" srcset="{{ asset('images/Id-Fight-xd-2x.jpg') }} 860w,{{ asset('images/Id-Fight-hd-2x.jpg') }} 750w,{{ asset('images/Id-Fight-md-2x.jpg') }} 702w,{{ asset('images/Id-Fight-ld-2x.jpg') }} 470w,{{ asset('images/Id-Fight-sd-2x.jpg') }} 456w,{{ asset('images/Id-Fight-xd.jpg') }} 430w,{{ asset('images/Id-Fight-hd.jpg') }} 375w,{{ asset('images/Id-Fight-md.jpg') }} 351w,{{ asset('images/Id-Fight-ld.jpg') }} 235w,{{ asset('images/Id-Fight-sd.jpg') }} 228w" sizes="(max-width: 375px) 100vw, (max-width: 501px) 85vw, (max-width: 751px) 46vw, (max-width: 1023px) 23vw, 228px" alt="Vignette de l'artwork Id Fight" itemprop="thumbnailUrl">
+                    <img src="{{ asset('images/Id-Fight-sd.jpg') }}" alt="Vignette de l'artwork Id Fight" itemprop="thumbnailUrl">
                     <figcaption itemprop="description">
                         <h4 itemprop="name">Id Fight</h4>
                         <p>Colorisation en aplat d'un dessin au trait en noir et blanc tirée d'un manhwa.</p>
