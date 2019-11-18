@@ -79,7 +79,7 @@
             <div class="row">
                 <div class="cell">
                     <h1>
-                        <span id="name"><span data-type="givenName">&lt;<span itemprop="givenName">Stanislas</span></span> <span data-type="familyName"><span itemprop="familyName">Poisson</span>/&gt;</span></span>
+                        <span id="name"><span data-type="givenName">&lt;<span itemprop="givenName">Stanislas</span></span> <span data-type="familyName"><span itemprop="familyName">Poisson</span>/&gt;</span></span>
                     </h1>
                     <span id="jobTitle" itemprop="jobTitle">Full Stack Web Developer</span>
                     <div class="tr">
@@ -438,7 +438,7 @@
                                 <li>Utilisation d'API externe pour valider et utiliser les données entrées :
                                     <ul>
                                         <li>Validation et récupération d'information via le n° de siret.</li>
-                                        <li>Validation er récupération des adresses postal geo-codées.</li>
+                                        <li>Validation er récupération des adresses postal géo-codées.</li>
                                         <li>Validation et confirmation des paiements via Stripe (PHP et JavaScript)</li>
                                     </ul>
                                 </li>
@@ -489,7 +489,7 @@
                                 <p>Réalisations de tâches diverses et variés au sein d'une équipe en télétravail avec un fonctionnement en sprint d'une semaine selon le fonctionnement agile : SCRUM.</p>
                                 <ul>
                                     <li>Amélioration d'interface UI/UX à destination des utilisateurs.</li>
-                                    <li>Mise en place d'éléments intéractifs utilisant la géolocalisation et Google Map street view.</li>
+                                    <li>Mise en place d'éléments interactifs utilisant la géolocalisation et Google Map street view.</li>
                                     <li>Aide a l'implémentation de système d'historique des données d'un formulaire.</li>
                                 </ul>
                                 <p class="italic"><small>HTML 5, CSS 3, JavaScript (jQuery / ES5), Php 5.6, MySQL, Symfony 3, Docker, Docker compose, Behat, PhpUnit, Gitlab CI.</small></p>
