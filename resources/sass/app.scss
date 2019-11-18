@@ -4,7 +4,7 @@ $browser-minimum-versions: (
     'ie': '9',
 );
 $graceful-usage-threshold: 4.46163;
-@import '~compass-mixins';
+@import 'compass-mixins-fixed';
 
 @import '_mixin.scss';
 @import '_color.scss';
