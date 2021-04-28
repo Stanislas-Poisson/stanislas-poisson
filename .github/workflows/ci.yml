@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: registry.gitlab.com/team-officine/team-officine/php:latest
+      image: registry.gitlab.com/kuroi-taiyo/docker-store/php:latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -53,7 +53,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: registry.gitlab.com/team-officine/team-officine/php:latest
+      image: registry.gitlab.com/kuroi-taiyo/docker-store/php:latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -77,7 +77,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: registry.gitlab.com/team-officine/team-officine/php:latest
+      image: registry.gitlab.com/kuroi-taiyo/docker-store/php:latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -103,7 +103,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: registry.gitlab.com/team-officine/team-officine/php:latest
+      image: registry.gitlab.com/kuroi-taiyo/docker-store/php:latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -128,11 +128,11 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: registry.gitlab.com/team-officine/team-officine/php:latest
+      image: registry.gitlab.com/kuroi-taiyo/docker-store/php:latest
 
     services:
       database:
-        image: registry.gitlab.com/team-officine/team-officine/mysql:latest
+        image: registry.gitlab.com/kuroi-taiyo/docker-store/mysql:latest
         env:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: teamofficine
@@ -140,7 +140,7 @@ jobs:
           MYSQL_PASSWORD: teamofficine
           REDIS_PORT: 6379
       redis:
-        image: registry.gitlab.com/team-officine/team-officine/redis:latest
+        image: registry.gitlab.com/kuroi-taiyo/docker-store/redis:latest
         env:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: teamofficine
@@ -187,11 +187,11 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: registry.gitlab.com/team-officine/team-officine/docker:latest
+      image: registry.gitlab.com/kuroi-taiyo/docker-store/docker:latest
 
     services:
       docker:
-        image: registry.gitlab.com/team-officine/team-officine/dind:latest
+        image: registry.gitlab.com/kuroi-taiyo/docker-store/dind:latest
         env:
           COMPOSE_HTTP_TIMEOUT: 300
           DOCKER_DRIVER: overlay2
@@ -269,11 +269,11 @@ jobs:
   #   runs-on: ubuntu-latest
 
   #   container:
-  #     image: registry.gitlab.com/team-officine/team-officine/docker:latest
+  #     image: registry.gitlab.com/kuroi-taiyo/docker-store/docker:latest
 
   #   services:
   #     docker:
-  #       image: registry.gitlab.com/team-officine/team-officine/dind:latest
+  #       image: registry.gitlab.com/kuroi-taiyo/docker-store/dind:latest
   #       env:
   #         COMPOSE_HTTP_TIMEOUT: 300
   #         DOCKER_DRIVER: overlay2
@@ -350,11 +350,11 @@ jobs:
   #   runs-on: ubuntu-latest
 
   #   container:
-  #     image: registry.gitlab.com/team-officine/team-officine/docker:latest
+  #     image: registry.gitlab.com/kuroi-taiyo/docker-store/docker:latest
 
   #   services:
   #     docker:
-  #       image: registry.gitlab.com/team-officine/team-officine/dind:latest
+  #       image: registry.gitlab.com/kuroi-taiyo/docker-store/dind:latest
   #       env:
   #         COMPOSE_HTTP_TIMEOUT: 300
   #         DOCKER_DRIVER: overlay2
