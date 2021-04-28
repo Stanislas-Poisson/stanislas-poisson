@@ -120,7 +120,7 @@ jobs:
         run: php vendor/bin/phpstan analyse -c phpstan.neon --memory-limit=2G
 
   # Tests
-  phpstan:
+  phpunit:
     if: github.ref != 'refs/heads/release/**' || github.ref != 'refs/tags/**'
 
     needs: [prettier, php-cs-fixer, phpstan]
