@@ -1,0 +1,87 @@
+version: "3"
+
+services:
+# Nginx Service
+  webserver:
+    image: registry.gitlab.com/kuroi-taiyo/docker-store/nginx:latest
+    container_name: dk_sp_webserver
+    restart: unless-stopped
+    tty: true
+    ports:
+      - 80:80
+      - 443:443
+      - 8080:8080
+    volumes:
+      - ./:/var/www
+      - ./.docker/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - sp-network
+
+# PHP Service
+  app:
+    image: registry.gitlab.com/kuroi-taiyo/docker-store/php:latest
+    container_name: dk_sp_app
+    restart: unless-stopped
+    tty: true
+    links:
+      - database
+      - redis
+    volumes:
+      - ./:/var/www
+    networks:
+      - sp-network
+
+  # MySQL Service
+  database:
+    image: registry.gitlab.com/kuroi-taiyo/docker-store/mysql:latest
+    container_name: dk_sp_database
+    restart: unless-stopped
+    tty: true
+    ports:
+      - 3306:3306
+    env_file: .env
+    volumes:
+      - spData-database:/var/lib/mysql/
+      - ./.docker/scripts/:/scripts/
+      - ./.docker/tmp-data/:/tmp-data/
+    networks:
+      - sp-network
+
+  # Redis Service
+  redis:
+    image: registry.gitlab.com/kuroi-taiyo/docker-store/redis:latest
+    container_name: dk_sp_redis
+    command: redis-server --appendonly yes
+    env_file: .env
+    hostname: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - spData-redis:/data
+    networks:
+      - sp-network
+
+  # Selenium Services
+  selenium:
+    image: registry.gitlab.com/kuroi-taiyo/docker-store/selenium:latest
+    container_name: dk_sp_selenium
+    volumes:
+      - /dev/shm:/dev/shm
+    depends_on:
+      - app
+    ports:
+      - 4444:4444
+    networks:
+      - sp-network
+
+#Docker Networks
+networks:
+  sp-network:
+    driver: bridge
+
+#Volumes
+volumes:
+  spData-database:
+    driver: local
+  spData-redis:
+    driver: local

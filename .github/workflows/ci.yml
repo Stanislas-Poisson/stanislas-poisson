@@ -1,0 +1,426 @@
+name: CI
+
+on: [push, pull_request]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # Step Install
+  install:
+    if: github.ref != 'refs/heads/release/**' || github.ref != 'refs/tags/**'
+
+    runs-on: ubuntu-latest
+
+    container:
+      image: registry.gitlab.com/team-officine/team-officine/php:latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs those commands
+      - name: Copy the test .env file
+        run: cp .env.test .env
+
+      - name: Install the requirements of composer.json and set a cache of the config
+        run: |
+          composer install --no-progress --profile --no-interaction --prefer-dist --optimize-autoloader
+          php artisan config:cache
+
+      - name: Install the requirement of package.json and run the mix production
+        run: |
+          yarn install --ignore-engines --frozen-lockfile
+          yarn run production
+
+      - name: Upload artifacts dependencies
+        uses: actions/upload-artifact@v2
+        with:
+          name: dependencies
+          path: |
+            .env
+            bootstrap
+            node_modules
+            public/
+            vendor/
+          retention-days: 1
+
+  # Step Quality Control
+  prettier:
+    if: github.ref != 'refs/heads/release/**' || github.ref != 'refs/tags/**'
+
+    needs: [install]
+
+    runs-on: ubuntu-latest
+
+    container:
+      image: registry.gitlab.com/team-officine/team-officine/php:latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs those commands
+      - name: Download artifacts dependencies
+        uses: actions/download-artifact@v2
+        with:
+          name: dependencies
+
+      - name: Check the CS with Prettier
+        run: prettier --check "resources/**/*.+(js|json|scss|sass|css|vue)" ".babelrc" "composer.json" "package.json" "webpack.mix.js"
+
+  php-cs-fixer:
+    if: github.ref != 'refs/heads/release/**' || github.ref != 'refs/tags/**'
+
+    needs: [install]
+
+    runs-on: ubuntu-latest
+
+    container:
+      image: registry.gitlab.com/team-officine/team-officine/php:latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs those commands
+      - name: Download artifacts dependencies
+        uses: actions/download-artifact@v2
+        with:
+          name: dependencies
+
+      - name: Check the Code Style with PHP CS Fixer
+        run: |
+          rm -f .php_cs.cache || true
+          php-cs-fixer fix --config=.php_cs --dry-run --diff --using-cache=no
+
+  phpstan:
+    if: github.ref != 'refs/heads/release/**' || github.ref != 'refs/tags/**'
+
+    needs: [install]
+
+    runs-on: ubuntu-latest
+
+    container:
+      image: registry.gitlab.com/team-officine/team-officine/php:latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs those commands
+      - name: Download artifacts dependencies
+        uses: actions/download-artifact@v2
+        with:
+          name: dependencies
+
+      - name: Check the code with PHPStan
+        run: php vendor/bin/phpstan analyse -c phpstan.neon --memory-limit=2G
+
+  # Tests
+  phpstan:
+    if: github.ref != 'refs/heads/release/**' || github.ref != 'refs/tags/**'
+
+    needs: [prettier, php-cs-fixer, phpstan]
+
+    runs-on: ubuntu-latest
+
+    container:
+      image: registry.gitlab.com/team-officine/team-officine/php:latest
+
+    services:
+      database:
+        image: registry.gitlab.com/team-officine/team-officine/mysql:latest
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: teamofficine
+          MYSQL_USER: teamofficine
+          MYSQL_PASSWORD: teamofficine
+          REDIS_PORT: 6379
+      redis:
+        image: registry.gitlab.com/team-officine/team-officine/redis:latest
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: teamofficine
+          MYSQL_USER: teamofficine
+          MYSQL_PASSWORD: teamofficine
+          REDIS_PORT: 6379
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs those commands
+      - name: Download artifacts dependencies
+        uses: actions/download-artifact@v2
+        with:
+          name: dependencies
+
+      - name: Check the code with PHPUnit
+        run: php -d memory_limit=2048M vendor/bin/phpunit --stderr --colors=never
+
+      - name: Upload artifacts failure
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: "${CI_BUILD_STAGE}_${CI_BUILD_REF_NAME}_FAILED"
+          path: |
+            bootstrap/
+            public/
+            storage/
+            tests/
+            .env
+            npm-debug.log
+            yarn-error.log
+            .php_cs.cache
+            .phpunit.result.cache
+          retention-days: 1
+
+  behat:passed:
+    if: github.ref != 'refs/heads/release/**' || github.ref != 'refs/tags/**'
+
+    needs: [prettier, php-cs-fixer, phpstan]
+
+    runs-on: ubuntu-latest
+
+    container:
+      image: registry.gitlab.com/team-officine/team-officine/docker:latest
+
+    services:
+      docker:
+        image: registry.gitlab.com/team-officine/team-officine/dind:latest
+        env:
+          COMPOSE_HTTP_TIMEOUT: 300
+          DOCKER_DRIVER: overlay2
+          DOCKER_TLS_CERTDIR: "/certs"
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs those commands
+      - name: Download artifacts dependencies
+        uses: actions/download-artifact@v2
+        with:
+          name: dependencies
+
+      - name: Docker login to registry gitlab and set-up the docker
+        run: |
+          docker login -u gitlab-ci-token -p $CI_REGISTRY_PASSWORD registry.gitlab.com
+          apk add --no-cache py-pip make && pip install docker-compose==1.23.2
+
+      - name: Copy the behat .env file
+        run: cp .env.behat .env
+
+      - name: Docker-compose pull, build and up the containers
+        run: |
+          docker-compose -f docker-compose-behat.yml -p teamofficine pull --ignore-pull-failures
+          docker-compose -f docker-compose-behat.yml -p teamofficine build --pull --force-rm  --no-cache
+          docker-compose -f docker-compose-behat.yml -p teamofficine up -d --remove-orphans
+
+      - name: Docker-compose list the up containers
+        run: docker-compose -f docker-compose-behat.yml -p teamofficine ps
+
+      - name: Docker-compose export the log of the specified container
+        run: docker-compose logs -t --tail="20" app
+
+      - name: Set the executing rights for the scripts and store the access of the database
+        run: |
+          chmod -R u+r+x ./.docker/scripts
+          ./.docker/scripts/store-access-database.sh
+
+      - name: Start the environnement
+        run: docker-compose -f docker-compose-behat.yml -p teamofficine run --rm app /bin/bash -c "wget https://github.com/jwilder/dockerize/releases/download/v0.6.0/dockerize-linux-amd64-v0.6.0.tar.gz && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.0.tar.gz && dockerize -wait tcp://webserver:80 -wait tcp://app:9000 -wait tcp://database:3306 -wait tcp://redis:6379 -wait tcp://selenium:4444 -timeout 300s && chmod -R 0777 /var/www/storage /var/www/bootstrap && php artisan config:cache && php artisan clear-compiled && php artisan migrate:fresh --force && php artisan db:seed && if [ ! -L public/storage ]; then php artisan storage:link; fi && chmod -R 0777 /var/www/storage /var/www/bootstrap && bash .docker/scripts/post-composer.sh && yarn production"
+
+      - name: Docker export the database
+        run: docker exec -t dk_teamofficine_database /bin/bash -c "bash ./scripts/export-all-data-of-database.sh"
+
+      - name: Test with Behat using all tags without @passed
+        run: docker-compose -f docker-compose-behat.yml -p teamofficine run --rm app /bin/bash -c "php vendor/bin/behat --colors --strict -vvv --tags=~@passed"
+
+      - name: Upload artifacts failure
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: "${CI_BUILD_STAGE}_${CI_BUILD_REF_NAME}_FAILED"
+          path: |
+            .docker/
+            bootstrap/
+            public/
+            storage/
+            tests/
+            .env
+            npm-debug.log
+            yarn-error.log
+            .php_cs.cache
+            .phpunit.result.cache
+          retention-days: 1
+
+  # REMOVED BECAUSE OF INSTABILITY OF https://packagist.org/packages/behat/mink-goutte-driver
+  # behat:goutte:
+  #  if: github.ref != 'refs/heads/release/**' || github.ref != 'refs/tags/**'
+
+  #   needs: [prettier, php-cs-fixer, phpstan]
+
+  #   runs-on: ubuntu-latest
+
+  #   container:
+  #     image: registry.gitlab.com/team-officine/team-officine/docker:latest
+
+  #   services:
+  #     docker:
+  #       image: registry.gitlab.com/team-officine/team-officine/dind:latest
+  #       env:
+  #         COMPOSE_HTTP_TIMEOUT: 300
+  #         DOCKER_DRIVER: overlay2
+  #         DOCKER_TLS_CERTDIR: "/certs"
+
+  #   # Steps represent a sequence of tasks that will be executed as part of the job
+  #   steps:
+  #     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+  #     - uses: actions/checkout@v2
+
+  #     # Runs those commands
+  #     - name: Download artifacts dependencies
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: dependencies
+
+  #     - name: Docker login to registry gitlab and set-up the docker
+  #       run: |
+  #         docker login -u gitlab-ci-token -p $CI_REGISTRY_PASSWORD registry.gitlab.com
+  #         apk add --no-cache py-pip make && pip install docker-compose==1.23.2
+
+  #     - name: Copy the behat .env file
+  #       run: cp .env.behat .env
+
+  #     - name: Docker-compose pull, build and up the containers
+  #       run: |
+  #         docker-compose -f docker-compose-behat.yml -p teamofficine pull --ignore-pull-failures
+  #         docker-compose -f docker-compose-behat.yml -p teamofficine build --pull --force-rm  --no-cache
+  #         docker-compose -f docker-compose-behat.yml -p teamofficine up -d --remove-orphans
+
+  #     - name: Docker-compose list the up containers
+  #       run: docker-compose -f docker-compose-behat.yml -p teamofficine ps
+
+  #     - name: Docker-compose export the log of the specified container
+  #       run: docker-compose logs -t --tail="20" app
+
+  #     - name: Set the executing rights for the scripts and store the access of the database
+  #       run: |
+  #         chmod -R u+r+x ./.docker/scripts
+  #         ./.docker/scripts/store-access-database.sh
+
+  #     - name: Start the environnement
+  #       run: docker-compose -f docker-compose-behat.yml -p teamofficine run --rm app /bin/bash -c "wget https://github.com/jwilder/dockerize/releases/download/v0.6.0/dockerize-linux-amd64-v0.6.0.tar.gz && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.0.tar.gz && dockerize -wait tcp://webserver:80 -wait tcp://app:9000 -wait tcp://database:3306 -wait tcp://redis:6379 -wait tcp://selenium:4444 -timeout 300s && chmod -R 0777 /var/www/storage /var/www/bootstrap && php artisan config:cache && php artisan clear-compiled && php artisan migrate:fresh --force && php artisan db:seed && if [ ! -L public/storage ]; then php artisan storage:link; fi && chmod -R 0777 /var/www/storage /var/www/bootstrap && bash .docker/scripts/post-composer.sh && yarn production"
+
+  #     - name: Docker export the database
+  #       run: docker exec -t dk_teamofficine_database /bin/bash -c "bash ./scripts/export-all-data-of-database.sh"
+
+  #     - name: Test with Behat using all tags without @passed
+  #       run: docker-compose -f docker-compose-behat.yml -p teamofficine run --rm app /bin/bash -c "php vendor/bin/behat --colors --strict -vvv --tags=~@javascript"
+
+  #     - name: Upload artifacts failure
+  #       uses: actions/upload-artifact@v2
+  #       if: failure()
+  #       with:
+  #         name: "${CI_BUILD_STAGE}_${CI_BUILD_REF_NAME}_FAILED"
+  #         path: |
+  #           .docker/
+  #           bootstrap/
+  #           public/
+  #           storage/
+  #           tests/
+  #           .env
+  #           npm-debug.log
+  #           yarn-error.log
+  #           .php_cs.cache
+  #           .phpunit.result.cache
+  #         retention-days: 1
+
+  # behat:javascript:
+  #  if: github.ref != 'refs/heads/release/**' || github.ref != 'refs/tags/**'
+
+  #   needs: [prettier, php-cs-fixer, phpstan]
+
+  #   runs-on: ubuntu-latest
+
+  #   container:
+  #     image: registry.gitlab.com/team-officine/team-officine/docker:latest
+
+  #   services:
+  #     docker:
+  #       image: registry.gitlab.com/team-officine/team-officine/dind:latest
+  #       env:
+  #         COMPOSE_HTTP_TIMEOUT: 300
+  #         DOCKER_DRIVER: overlay2
+  #         DOCKER_TLS_CERTDIR: "/certs"
+
+  #   # Steps represent a sequence of tasks that will be executed as part of the job
+  #   steps:
+  #     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+  #     - uses: actions/checkout@v2
+
+  #     # Runs those commands
+  #     - name: Download artifacts dependencies
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: dependencies
+
+  #     - name: Docker login to registry gitlab and set-up the docker
+  #       run: |
+  #         docker login -u gitlab-ci-token -p $CI_REGISTRY_PASSWORD registry.gitlab.com
+  #         apk add --no-cache py-pip make && pip install docker-compose==1.23.2
+
+  #     - name: Copy the behat .env file
+  #       run: cp .env.behat .env
+
+  #     - name: Docker-compose pull, build and up the containers
+  #       run: |
+  #         docker-compose -f docker-compose-behat.yml -p teamofficine pull --ignore-pull-failures
+  #         docker-compose -f docker-compose-behat.yml -p teamofficine build --pull --force-rm  --no-cache
+  #         docker-compose -f docker-compose-behat.yml -p teamofficine up -d --remove-orphans
+
+  #     - name: Docker-compose list the up containers
+  #       run: docker-compose -f docker-compose-behat.yml -p teamofficine ps
+
+  #     - name: Docker-compose export the log of the specified container
+  #       run: docker-compose logs -t --tail="20" app
+
+  #     - name: Set the executing rights for the scripts and store the access of the database
+  #       run: |
+  #         chmod -R u+r+x ./.docker/scripts
+  #         ./.docker/scripts/store-access-database.sh
+
+  #     - name: Start the environnement
+  #       run: docker-compose -f docker-compose-behat.yml -p teamofficine run --rm app /bin/bash -c "wget https://github.com/jwilder/dockerize/releases/download/v0.6.0/dockerize-linux-amd64-v0.6.0.tar.gz && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.0.tar.gz && dockerize -wait tcp://webserver:80 -wait tcp://app:9000 -wait tcp://database:3306 -wait tcp://redis:6379 -wait tcp://selenium:4444 -timeout 300s && chmod -R 0777 /var/www/storage /var/www/bootstrap && php artisan config:cache && php artisan clear-compiled && php artisan migrate:fresh --force && php artisan db:seed && if [ ! -L public/storage ]; then php artisan storage:link; fi && chmod -R 0777 /var/www/storage /var/www/bootstrap && bash .docker/scripts/post-composer.sh && yarn production"
+
+  #     - name: Docker export the database
+  #       run: docker exec -t dk_teamofficine_database /bin/bash -c "bash ./scripts/export-all-data-of-database.sh"
+
+  #     - name: Test with Behat using all tags without @passed
+  #       run: docker-compose -f docker-compose-behat.yml -p teamofficine run --rm app /bin/bash -c "php vendor/bin/behat --colors --strict -vvv --tags=@javascript"
+
+  #     - name: Upload artifacts failure
+  #       uses: actions/upload-artifact@v2
+  #       if: failure()
+  #       with:
+  #         name: "${CI_BUILD_STAGE}_${CI_BUILD_REF_NAME}_FAILED"
+  #         path: |
+  #           .docker/
+  #           bootstrap/
+  #           public/
+  #           storage/
+  #           tests/
+  #           .env
+  #           npm-debug.log
+  #           yarn-error.log
+  #           .php_cs.cache
+  #           .phpunit.result.cache
+  #         retention-days: 1
+
+  # Deploy
