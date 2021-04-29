@@ -1,5 +1,10 @@
 # Stanislas Poisson
 
+| Branche | Status |
+| ------- | ------ |
+| Master | [![CI](https://github.com/Stanislas-Poisson/stanislas-poisson/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/Stanislas-Poisson/stanislas-poisson/actions/workflows/ci.yml) |
+| Develop | [![CI](https://github.com/Stanislas-Poisson/stanislas-poisson/actions/workflows/ci.yml/badge.svg?branch=develop)](https://github.com/Stanislas-Poisson/stanislas-poisson/actions/workflows/ci.yml) |
+
 This is a [Laravel 8.x](https://laravel.com/docs/8.x) app.
 
 ## Requirements
