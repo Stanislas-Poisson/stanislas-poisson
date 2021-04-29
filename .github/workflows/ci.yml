@@ -30,16 +30,11 @@ jobs:
             vendor
           key: dependencies-${GITHUB_ACTION}
 
-      - name: Copy the test .env file
-        run: cp .env.test .env
-
-      - name: Install the requirements of composer.json and set a cache of the config
+      - name: Copy the .env.test file, install composer, cache the config, package.json and run the mix production
         run: |
+          cp .env.test .env
           composer install --no-progress --profile --no-interaction --prefer-dist --optimize-autoloader
           php artisan config:cache
-
-      - name: Install the requirement of package.json and run the mix production
-        run: |
           yarn install --ignore-engines --frozen-lockfile
           yarn run production
 
