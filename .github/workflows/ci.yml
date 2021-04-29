@@ -28,7 +28,7 @@ jobs:
             node_modules
             public
             vendor
-          key: dependencies-${GITHUB_ACTION}
+          key: dependencies-${{ hashFiles('./public/mix-manifest.json') }}
 
       - name: Copy the .env.test file, install composer, cache the config, package.json and run the mix production
         run: |
