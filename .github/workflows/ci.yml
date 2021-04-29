@@ -19,6 +19,17 @@ jobs:
       - uses: actions/checkout@v2
 
       # Runs those commands
+      - name: Cache artifacts dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            .env
+            bootstrap
+            node_modules
+            public
+            vendor
+          key: dependencies-${GITHUB_ACTION}
+
       - name: Copy the test .env file
         run: cp .env.test .env
 
@@ -31,17 +42,6 @@ jobs:
         run: |
           yarn install --ignore-engines --frozen-lockfile
           yarn run production
-
-      - name: Cache artifacts dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            .env
-            bootstrap
-            node_modules
-            public/
-            vendor/
-          key: dependencies-${GITHUB_ACTION}
 
   # Step Quality Control
   prettier:
