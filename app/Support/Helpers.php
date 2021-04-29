@@ -74,7 +74,7 @@ if (! function_exists('recursive_array_replace')) {
      *
      * @param mixed $array
      *
-     * @return array
+     * @return array|string
      */
     function recursive_array_replace(string $find, string $replace, $array)
     {

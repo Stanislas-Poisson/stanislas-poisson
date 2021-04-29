@@ -2,14 +2,15 @@ includes:
   - ./vendor/nunomaduro/larastan/extension.neon
 
 parameters:
-  level: 5
+  level: 8
   parallel:
     maximumNumberOfProcesses: 1
   paths:
     - app
   ignoreErrors:
-  excludes_analyse:
+  excludePaths:
     - ./.docker
+    - ./.github
     - ./bootstrap/cache
     - ./node_modules
     - ./public
