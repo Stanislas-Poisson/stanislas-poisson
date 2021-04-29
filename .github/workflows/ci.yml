@@ -174,13 +174,13 @@ jobs:
           key: dependencies-${{ hashFiles('./public/mix-manifest.json') }}
 
       - name: Check the code with PHPUnit
-        run: php -d memory_limit=2048M vendor/bin/phpunit --stderr --colors=never
+        run: php -d memory_limit=2048M vendor/bin/phpunit --stderr
 
       - name: Upload artifacts failure
         uses: actions/upload-artifact@v2
         if: failure()
         with:
-          name: "${GITHUB_ACTION}_${GITHUB_JOB}_FAILED"
+          name: "${{ GITHUB_ACTION }}_${{ GITHUB_JOB }}_FAILED"
           path: |
             bootstrap/
             public/
@@ -260,13 +260,13 @@ jobs:
         run: docker exec -t dk_stanislaspoisson_database /bin/bash -c "bash ./scripts/export-all-data-of-database.sh"
 
       - name: Test with Behat using all tags without @passed
-        run: docker-compose -f docker-compose-behat.yml -p stanislaspoisson run --rm app /bin/bash -c "php vendor/bin/behat --colors --strict -vvv --tags=~@passed"
+        run: docker-compose -f docker-compose-behat.yml -p stanislaspoisson run --rm app /bin/bash -c "php vendor/bin/behat --strict -vvv --tags=~@passed"
 
       - name: Upload artifacts failure
         uses: actions/upload-artifact@v2
         if: failure()
         with:
-          name: "${GITHUB_ACTION}_${GITHUB_JOB}_FAILED"
+          name: "${{ GITHUB_ACTION }}_${{ GITHUB_JOB }}_FAILED"
           path: |
             .docker/
             bootstrap/
@@ -348,13 +348,13 @@ jobs:
   #       run: docker exec -t dk_stanislaspoisson_database /bin/bash -c "bash ./scripts/export-all-data-of-database.sh"
 
   #     - name: Test with Behat using all tags without @passed
-  #       run: docker-compose -f docker-compose-behat.yml -p stanislaspoisson run --rm app /bin/bash -c "php vendor/bin/behat --colors --strict -vvv --tags=~@javascript"
+  #       run: docker-compose -f docker-compose-behat.yml -p stanislaspoisson run --rm app /bin/bash -c "php vendor/bin/behat --strict -vvv --tags=~@javascript"
 
   #     - name: Upload artifacts failure
   #       uses: actions/upload-artifact@v2
   #       if: failure()
   #       with:
-  #         name: "${GITHUB_ACTION}_${GITHUB_JOB}_FAILED"
+  #         name: "${{ GITHUB_ACTION }}_${{ GITHUB_JOB }}_FAILED"
   #         path: |
   #           .docker/
   #           bootstrap/
@@ -435,13 +435,13 @@ jobs:
   #       run: docker exec -t dk_stanislaspoisson_database /bin/bash -c "bash ./scripts/export-all-data-of-database.sh"
 
   #     - name: Test with Behat using all tags without @passed
-  #       run: docker-compose -f docker-compose-behat.yml -p stanislaspoisson run --rm app /bin/bash -c "php vendor/bin/behat --colors --strict -vvv --tags=@javascript"
+  #       run: docker-compose -f docker-compose-behat.yml -p stanislaspoisson run --rm app /bin/bash -c "php vendor/bin/behat --strict -vvv --tags=@javascript"
 
   #     - name: Upload artifacts failure
   #       uses: actions/upload-artifact@v2
   #       if: failure()
   #       with:
-  #         name: "${GITHUB_ACTION}_${GITHUB_JOB}_FAILED"
+  #         name: "${{ GITHUB_ACTION }}_${{ GITHUB_JOB }}_FAILED"
   #         path: |
   #           .docker/
   #           bootstrap/
