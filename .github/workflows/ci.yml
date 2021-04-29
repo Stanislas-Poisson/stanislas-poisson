@@ -180,7 +180,7 @@ jobs:
         uses: actions/upload-artifact@v2
         if: failure()
         with:
-          name: "${{ GITHUB_ACTION }}_${{ GITHUB_JOB }}_FAILED"
+          name: "$GITHUB_ACTION-$GITHUB_JOB-FAILED"
           path: |
             bootstrap/
             public/
@@ -266,7 +266,7 @@ jobs:
         uses: actions/upload-artifact@v2
         if: failure()
         with:
-          name: "${{ GITHUB_ACTION }}_${{ GITHUB_JOB }}_FAILED"
+          name: "$GITHUB_ACTION-$GITHUB_JOB-FAILED"
           path: |
             .docker/
             bootstrap/
@@ -354,7 +354,7 @@ jobs:
   #       uses: actions/upload-artifact@v2
   #       if: failure()
   #       with:
-  #         name: "${{ GITHUB_ACTION }}_${{ GITHUB_JOB }}_FAILED"
+  #         name: "$GITHUB_ACTION-$GITHUB_JOB-FAILED"
   #         path: |
   #           .docker/
   #           bootstrap/
@@ -441,7 +441,7 @@ jobs:
   #       uses: actions/upload-artifact@v2
   #       if: failure()
   #       with:
-  #         name: "${{ GITHUB_ACTION }}_${{ GITHUB_JOB }}_FAILED"
+  #         name: "$GITHUB_ACTION-$GITHUB_JOB-FAILED"
   #         path: |
   #           .docker/
   #           bootstrap/
