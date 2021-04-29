@@ -54,6 +54,17 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
+      - name: Cache artifacts dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            .env
+            bootstrap
+            node_modules
+            public
+            vendor
+          key: dependencies-${{ hashFiles('./public/mix-manifest.json') }}
+
       - name: Check the CS with Prettier
         run: prettier --check "resources/**/*.+(js|json|scss|sass|css|vue)" ".babelrc" "composer.json" "package.json" "webpack.mix.js"
 
@@ -71,6 +82,17 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+
+      - name: Cache artifacts dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            .env
+            bootstrap
+            node_modules
+            public
+            vendor
+          key: dependencies-${{ hashFiles('./public/mix-manifest.json') }}
 
       - name: Check the Code Style with PHP CS Fixer
         run: |
@@ -91,6 +113,17 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+
+      - name: Cache artifacts dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            .env
+            bootstrap
+            node_modules
+            public
+            vendor
+          key: dependencies-${{ hashFiles('./public/mix-manifest.json') }}
 
       - name: Check the code with PHPStan
         run: php vendor/bin/phpstan analyse -c phpstan.neon --memory-limit=2G
@@ -128,6 +161,17 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+
+      - name: Cache artifacts dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            .env
+            bootstrap
+            node_modules
+            public
+            vendor
+          key: dependencies-${{ hashFiles('./public/mix-manifest.json') }}
 
       - name: Check the code with PHPUnit
         run: php -d memory_limit=2048M vendor/bin/phpunit --stderr --colors=never
@@ -171,6 +215,17 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+
+      - name: Cache artifacts dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            .env
+            bootstrap
+            node_modules
+            public
+            vendor
+          key: dependencies-${{ hashFiles('./public/mix-manifest.json') }}
 
       - name: Docker login to registry gitlab and set-up the docker
         run: |
@@ -249,6 +304,17 @@ jobs:
   #     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
   #     - uses: actions/checkout@v2
 
+  #     - name: Cache artifacts dependencies
+  #       uses: actions/cache@v2
+  #       with:
+  #         path: |
+  #           .env
+  #           bootstrap
+  #           node_modules
+  #           public
+  #           vendor
+  #         key: dependencies-${{ hashFiles('./public/mix-manifest.json') }}
+
   #     # Runs those commands
   #     - name: Docker login to registry gitlab and set-up the docker
   #       run: |
@@ -324,6 +390,17 @@ jobs:
   #   steps:
   #     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
   #     - uses: actions/checkout@v2
+
+  #     - name: Cache artifacts dependencies
+  #       uses: actions/cache@v2
+  #       with:
+  #         path: |
+  #           .env
+  #           bootstrap
+  #           node_modules
+  #           public
+  #           vendor
+  #         key: dependencies-${{ hashFiles('./public/mix-manifest.json') }}
 
   #     # Runs those commands
   #     - name: Docker login to registry gitlab and set-up the docker
