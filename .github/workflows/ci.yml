@@ -32,17 +32,16 @@ jobs:
           yarn install --ignore-engines --frozen-lockfile
           yarn run production
 
-      - name: Upload artifacts dependencies
-        uses: actions/upload-artifact@v2
+      - name: Cache artifacts dependencies
+        uses: actions/cache@v2
         with:
-          name: dependencies
           path: |
             .env
             bootstrap
             node_modules
             public/
             vendor/
-          retention-days: 1
+          key: dependencies-${GITHUB_ACTION}
 
   # Step Quality Control
   prettier:
@@ -61,10 +60,10 @@ jobs:
       - uses: actions/checkout@v2
 
       # Runs those commands
-      - name: Download artifacts dependencies
-        uses: actions/download-artifact@v2
-        with:
-          name: dependencies
+      # - name: Download artifacts dependencies
+      #   uses: actions/download-artifact@v2
+      #   with:
+      #     name: dependencies
 
       - name: Check the CS with Prettier
         run: prettier --check "resources/**/*.+(js|json|scss|sass|css|vue)" ".babelrc" "composer.json" "package.json" "webpack.mix.js"
@@ -85,10 +84,10 @@ jobs:
       - uses: actions/checkout@v2
 
       # Runs those commands
-      - name: Download artifacts dependencies
-        uses: actions/download-artifact@v2
-        with:
-          name: dependencies
+      # - name: Download artifacts dependencies
+      #   uses: actions/download-artifact@v2
+      #   with:
+      #     name: dependencies
 
       - name: Check the Code Style with PHP CS Fixer
         run: |
@@ -111,10 +110,10 @@ jobs:
       - uses: actions/checkout@v2
 
       # Runs those commands
-      - name: Download artifacts dependencies
-        uses: actions/download-artifact@v2
-        with:
-          name: dependencies
+      # - name: Download artifacts dependencies
+      #   uses: actions/download-artifact@v2
+      #   with:
+      #     name: dependencies
 
       - name: Check the code with PHPStan
         run: php vendor/bin/phpstan analyse -c phpstan.neon --memory-limit=2G
@@ -154,10 +153,10 @@ jobs:
       - uses: actions/checkout@v2
 
       # Runs those commands
-      - name: Download artifacts dependencies
-        uses: actions/download-artifact@v2
-        with:
-          name: dependencies
+      # - name: Download artifacts dependencies
+      #   uses: actions/download-artifact@v2
+      #   with:
+      #     name: dependencies
 
       - name: Check the code with PHPUnit
         run: php -d memory_limit=2048M vendor/bin/phpunit --stderr --colors=never
@@ -203,10 +202,10 @@ jobs:
       - uses: actions/checkout@v2
 
       # Runs those commands
-      - name: Download artifacts dependencies
-        uses: actions/download-artifact@v2
-        with:
-          name: dependencies
+      # - name: Download artifacts dependencies
+      #   uses: actions/download-artifact@v2
+      #   with:
+      #     name: dependencies
 
       - name: Docker login to registry gitlab and set-up the docker
         run: |
