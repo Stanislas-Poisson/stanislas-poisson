@@ -166,7 +166,7 @@ jobs:
         uses: actions/upload-artifact@v2
         if: failure()
         with:
-          name: "${CI_BUILD_STAGE}_${CI_BUILD_REF_NAME}_FAILED"
+          name: "${GITHUB_ACTION}_${GITHUB_JOB}_FAILED"
           path: |
             bootstrap/
             public/
@@ -210,7 +210,8 @@ jobs:
 
       - name: Docker login to registry gitlab and set-up the docker
         run: |
-          docker login -u gitlab-ci-token -p $CI_REGISTRY_PASSWORD registry.gitlab.com
+          # docker login -u gitlab-ci-token -p $CI_REGISTRY_PASSWORD registry.gitlab.com
+          docker login -u gitlab-ci-token registry.gitlab.com
           apk add --no-cache py-pip make && pip install docker-compose==1.23.2
 
       - name: Copy the behat .env file
@@ -246,7 +247,7 @@ jobs:
         uses: actions/upload-artifact@v2
         if: failure()
         with:
-          name: "${CI_BUILD_STAGE}_${CI_BUILD_REF_NAME}_FAILED"
+          name: "${GITHUB_ACTION}_${GITHUB_JOB}_FAILED"
           path: |
             .docker/
             bootstrap/
@@ -328,7 +329,7 @@ jobs:
   #       uses: actions/upload-artifact@v2
   #       if: failure()
   #       with:
-  #         name: "${CI_BUILD_STAGE}_${CI_BUILD_REF_NAME}_FAILED"
+  #         name: "${GITHUB_ACTION}_${GITHUB_JOB}_FAILED"
   #         path: |
   #           .docker/
   #           bootstrap/
@@ -409,7 +410,7 @@ jobs:
   #       uses: actions/upload-artifact@v2
   #       if: failure()
   #       with:
-  #         name: "${CI_BUILD_STAGE}_${CI_BUILD_REF_NAME}_FAILED"
+  #         name: "${GITHUB_ACTION}_${GITHUB_JOB}_FAILED"
   #         path: |
   #           .docker/
   #           bootstrap/
