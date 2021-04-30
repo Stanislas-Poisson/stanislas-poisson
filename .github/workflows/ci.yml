@@ -28,7 +28,7 @@ jobs:
             node_modules
             public
             vendor
-          key: dependencies-${{ hashFiles('./public/mix-manifest.json') }}
+          key: dependencies-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('**/composer.lock') }}
 
       - name: Copy the .env.test file, install composer, cache the config, package.json and run the mix production
         run: |
@@ -63,7 +63,7 @@ jobs:
             node_modules
             public
             vendor
-          key: dependencies-${{ hashFiles('./public/mix-manifest.json') }}
+          key: dependencies-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('**/composer.lock') }}
 
       - name: Check the CS with Prettier
         run: prettier --check "resources/**/*.+(js|json|scss|sass|css|vue)" ".babelrc" "composer.json" "package.json" "webpack.mix.js"
@@ -92,7 +92,7 @@ jobs:
             node_modules
             public
             vendor
-          key: dependencies-${{ hashFiles('./public/mix-manifest.json') }}
+          key: dependencies-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('**/composer.lock') }}
 
       - name: Check the Code Style with PHP CS Fixer
         run: |
@@ -123,7 +123,7 @@ jobs:
             node_modules
             public
             vendor
-          key: dependencies-${{ hashFiles('./public/mix-manifest.json') }}
+          key: dependencies-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('**/composer.lock') }}
 
       - name: Check the code with PHPStan
         run: php vendor/bin/phpstan analyse -c phpstan.neon --memory-limit=2G
@@ -171,7 +171,7 @@ jobs:
             node_modules
             public
             vendor
-          key: dependencies-${{ hashFiles('./public/mix-manifest.json') }}
+          key: dependencies-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('**/composer.lock') }}
 
       - name: Check the code with PHPUnit
         run: php -d memory_limit=2048M vendor/bin/phpunit --stderr
@@ -180,7 +180,7 @@ jobs:
         uses: actions/upload-artifact@v2
         if: failure()
         with:
-          name: "$GITHUB_ACTION-$GITHUB_JOB-FAILED"
+          name: "${{ github.action }}-${{ github.job }}-FAILED"
           path: |
             bootstrap/
             public/
@@ -225,7 +225,7 @@ jobs:
             node_modules
             public
             vendor
-          key: dependencies-${{ hashFiles('./public/mix-manifest.json') }}
+          key: dependencies-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('**/composer.lock') }}
 
       - name: Docker login to registry gitlab and set-up the docker
         run: |
@@ -266,7 +266,7 @@ jobs:
         uses: actions/upload-artifact@v2
         if: failure()
         with:
-          name: "$GITHUB_ACTION-$GITHUB_JOB-FAILED"
+          name: "${{ github.action }}-${{ github.job }}-FAILED"
           path: |
             .docker/
             bootstrap/
@@ -313,7 +313,7 @@ jobs:
   #           node_modules
   #           public
   #           vendor
-  #         key: dependencies-${{ hashFiles('./public/mix-manifest.json') }}
+  #         key: dependencies-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('**/composer.lock') }}
 
   #     # Runs those commands
   #     - name: Docker login to registry gitlab and set-up the docker
@@ -354,7 +354,7 @@ jobs:
   #       uses: actions/upload-artifact@v2
   #       if: failure()
   #       with:
-  #         name: "$GITHUB_ACTION-$GITHUB_JOB-FAILED"
+  #         name: "${{ github.action }}-${{ github.job }}-FAILED"
   #         path: |
   #           .docker/
   #           bootstrap/
@@ -400,7 +400,7 @@ jobs:
   #           node_modules
   #           public
   #           vendor
-  #         key: dependencies-${{ hashFiles('./public/mix-manifest.json') }}
+  #         key: dependencies-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('**/composer.lock') }}
 
   #     # Runs those commands
   #     - name: Docker login to registry gitlab and set-up the docker
@@ -441,7 +441,7 @@ jobs:
   #       uses: actions/upload-artifact@v2
   #       if: failure()
   #       with:
-  #         name: "$GITHUB_ACTION-$GITHUB_JOB-FAILED"
+  #         name: "${{ github.action }}-${{ github.job }}-FAILED"
   #         path: |
   #           .docker/
   #           bootstrap/
