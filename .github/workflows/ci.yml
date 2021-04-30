@@ -201,12 +201,12 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    # container:
-    #   image: registry.gitlab.com/kuroi-taiyo/docker-store/dind:latest
+    container:
+      image: registry.gitlab.com/kuroi-taiyo/docker-store/docker:latest
 
     # services:
-    #   docker:
-    #     image: registry.gitlab.com/kuroi-taiyo/docker-store/docker:latest
+    #   dind:
+    #     image: registry.gitlab.com/kuroi-taiyo/docker-store/dind:latest
     #     env:
     #       COMPOSE_HTTP_TIMEOUT: 300
     #       DOCKER_DRIVER: overlay2
