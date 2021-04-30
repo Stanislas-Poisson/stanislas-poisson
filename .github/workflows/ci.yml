@@ -250,14 +250,7 @@ jobs:
 
       - name: Start the environnement
         run: |
-          chmod -R 0777 /var/www/storage /var/www/bootstrap
-          php artisan config:cache
-          php artisan clear-compiled
-          php artisan migrate:fresh --force
-          php artisan db:seed
-          if [ ! -L public/storage ]; then php artisan storage:link; fi
-          chmod -R 0777 /var/www/storage /var/www/bootstrap
-          bash .docker/scripts/post-composer.sh
+          docker-compose -f docker-compose-behat.yml -p stanislaspoisson run --rm app /bin/bash -c "chmod -R 0777 /var/www/storage /var/www/bootstrap && php artisan config:cache && php artisan clear-compiled && php artisan migrate:fresh --force && php artisan db:seed && if [ ! -L public/storage ]; then php artisan storage:link; fi && chmod -R 0777 /var/www/storage /var/www/bootstrap && bash .docker/scripts/post-composer.sh && yarn production"
 
       - name: Docker export the database
         run: docker exec -t dk_stanislaspoisson_database /bin/bash -c "bash ./scripts/export-all-data-of-database.sh"
