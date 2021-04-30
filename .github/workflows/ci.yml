@@ -250,10 +250,10 @@ jobs:
 
       - name: Start the environnement
         run: |
-          docker-compose -f docker-compose-behat.yml -p stanislaspoisson run --rm app /bin/bash -c "chmod -R 0777 /var/www/storage /var/www/bootstrap && php artisan config:cache && php artisan clear-compiled && php artisan migrate:fresh --force && php artisan db:seed && if [ ! -L public/storage ]; then php artisan storage:link; fi && chmod -R 0777 /var/www/storage /var/www/bootstrap && bash .docker/scripts/post-composer.sh && yarn production"
+          docker exec -t dk_sp_app /bin/bash -c "chmod -R 0777 /var/www/storage /var/www/bootstrap && php artisan config:cache && php artisan clear-compiled && php artisan migrate:fresh --force && php artisan db:seed && if [ ! -L public/storage ]; then php artisan storage:link; fi && chmod -R 0777 /var/www/storage /var/www/bootstrap && bash .docker/scripts/post-composer.sh && yarn production"
 
       - name: Docker export the database
-        run: docker exec -t dk_stanislaspoisson_database /bin/bash -c "bash ./scripts/export-all-data-of-database.sh"
+        run: docker exec -t dk_sp_database /bin/bash -c "bash ./scripts/export-all-data-of-database.sh"
 
       - name: Test with Behat using all tags without @passed
         run: docker-compose -f docker-compose-behat.yml -p stanislaspoisson run --rm app /bin/bash -c "php vendor/bin/behat --strict -vvv --tags=~@passed"
@@ -341,7 +341,7 @@ jobs:
   #       run: docker-compose -f docker-compose-behat.yml -p stanislaspoisson run --rm app /bin/bash -c "wget https://github.com/jwilder/dockerize/releases/download/v0.6.0/dockerize-linux-amd64-v0.6.0.tar.gz && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.0.tar.gz && dockerize -wait tcp://webserver:80 -wait tcp://app:9000 -wait tcp://database:3306 -wait tcp://redis:6379 -wait tcp://selenium:4444 -timeout 300s && chmod -R 0777 /var/www/storage /var/www/bootstrap && php artisan config:cache && php artisan clear-compiled && php artisan migrate:fresh --force && php artisan db:seed && if [ ! -L public/storage ]; then php artisan storage:link; fi && chmod -R 0777 /var/www/storage /var/www/bootstrap && bash .docker/scripts/post-composer.sh && yarn production"
 
   #     - name: Docker export the database
-  #       run: docker exec -t dk_stanislaspoisson_database /bin/bash -c "bash ./scripts/export-all-data-of-database.sh"
+  #       run: docker exec -t dk_sp_database /bin/bash -c "bash ./scripts/export-all-data-of-database.sh"
 
   #     - name: Test with Behat using all tags without @passed
   #       run: docker-compose -f docker-compose-behat.yml -p stanislaspoisson run --rm app /bin/bash -c "php vendor/bin/behat --strict -vvv --tags=~@javascript"
@@ -428,7 +428,7 @@ jobs:
   #       run: docker-compose -f docker-compose-behat.yml -p stanislaspoisson run --rm app /bin/bash -c "wget https://github.com/jwilder/dockerize/releases/download/v0.6.0/dockerize-linux-amd64-v0.6.0.tar.gz && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.0.tar.gz && dockerize -wait tcp://webserver:80 -wait tcp://app:9000 -wait tcp://database:3306 -wait tcp://redis:6379 -wait tcp://selenium:4444 -timeout 300s && chmod -R 0777 /var/www/storage /var/www/bootstrap && php artisan config:cache && php artisan clear-compiled && php artisan migrate:fresh --force && php artisan db:seed && if [ ! -L public/storage ]; then php artisan storage:link; fi && chmod -R 0777 /var/www/storage /var/www/bootstrap && bash .docker/scripts/post-composer.sh && yarn production"
 
   #     - name: Docker export the database
-  #       run: docker exec -t dk_stanislaspoisson_database /bin/bash -c "bash ./scripts/export-all-data-of-database.sh"
+  #       run: docker exec -t dk_sp_database /bin/bash -c "bash ./scripts/export-all-data-of-database.sh"
 
   #     - name: Test with Behat using all tags without @passed
   #       run: docker-compose -f docker-compose-behat.yml -p stanislaspoisson run --rm app /bin/bash -c "php vendor/bin/behat --strict -vvv --tags=@javascript"
