@@ -204,13 +204,13 @@ jobs:
     container:
       image: registry.gitlab.com/kuroi-taiyo/docker-store/docker:latest
 
-    # services:
-    #   dind:
-    #     image: registry.gitlab.com/kuroi-taiyo/docker-store/dind:latest
-    #     env:
-    #       COMPOSE_HTTP_TIMEOUT: 300
-    #       DOCKER_DRIVER: overlay2
-    #       DOCKER_TLS_CERTDIR: "/certs"
+    services:
+      dind:
+        image: registry.gitlab.com/kuroi-taiyo/docker-store/dind:latest
+        env:
+          COMPOSE_HTTP_TIMEOUT: 300
+          DOCKER_DRIVER: overlay2
+          DOCKER_TLS_CERTDIR: "/certs"
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
