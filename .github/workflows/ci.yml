@@ -201,16 +201,45 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    container:
-      image: registry.gitlab.com/kuroi-taiyo/docker-store/docker:latest
+    # container:
+    #   image: registry.gitlab.com/kuroi-taiyo/docker-store/docker:latest
 
     services:
-      docker:
-        image: registry.gitlab.com/kuroi-taiyo/docker-store/dind:latest
+      mysql:
+        image: registry.gitlab.com/kuroi-taiyo/docker-store/mysql:latest
         env:
-          COMPOSE_HTTP_TIMEOUT: 300
-          DOCKER_DRIVER: overlay2
-          DOCKER_TLS_CERTDIR: "/certs"
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: stanislaspoisson
+          MYSQL_USER: stanislaspoisson
+          MYSQL_PASSWORD: stanislaspoisson
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+      redis:
+        image: registry.gitlab.com/kuroi-taiyo/docker-store/redis:latest
+        env:
+          REDIS_HOST: redis
+          REDIS_PASSWORD: null
+          REDIS_PORT: 6379
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    #   docker:
+    #     image: registry.gitlab.com/kuroi-taiyo/docker-store/dind:latest
+    #     env:
+    #       COMPOSE_HTTP_TIMEOUT: 300
+    #       DOCKER_DRIVER: overlay2
+    #       DOCKER_TLS_CERTDIR: "/certs"
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -231,17 +260,28 @@ jobs:
       - name: Copy the behat .env file
         run: cp .env.behat .env
 
+      - name: Show the list of file and place
+        run: |
+          pwd
+          ls -la
+          cat .env
+
+      - name: Docker-compose up, list the up
+        env:
+          TAG: "${GITHUB_SHA}"
+        run: |
+          docker ps
+          docker-compose -f docker-compose-behat.yml up -d
+          docker ps
+
       - name: Set the executing rights for the scripts and store the access of the database
         run: |
           chmod -R u+r+x ./.docker/scripts
           ./.docker/scripts/store-access-database.sh
 
-      - name: Docker-compose up, list the up
-        run: docker-compose -f docker-compose-behat.yml up -d
-
       - name: Start the environnement
-        run: |
-          docker exec -t dk_sp_app /bin/bash -c "chmod -R 0777 /var/www/storage /var/www/bootstrap && php artisan config:cache && php artisan clear-compiled && php artisan migrate:fresh --force && php artisan db:seed && if [ ! -L public/storage ]; then php artisan storage:link; fi && chmod -R 0777 /var/www/storage /var/www/bootstrap && bash .docker/scripts/post-composer.sh && yarn production"
+        run: docker exec -t dk_sp_app /bin/bash -c "pwd && ls -la && cat .env && chmod -R 0777 ./storage ./bootstrap"
+        # run: docker exec -t dk_sp_app /bin/bash -c "chmod -R 0777 ./storage ./bootstrap && php artisan config:cache && php artisan clear-compiled && php artisan migrate:fresh --force && php artisan db:seed && if [ ! -L public/storage ]; then php artisan storage:link; fi && chmod -R 0777 ./storage ./bootstrap && bash .docker/scripts/post-composer.sh && yarn production"
 
       - name: Docker export the database
         run: docker exec -t dk_sp_database /bin/bash -c "bash ./scripts/export-all-data-of-database.sh"
@@ -329,7 +369,7 @@ jobs:
   #         ./.docker/scripts/store-access-database.sh
 
   #     - name: Start the environnement
-  #       run: docker-compose -f docker-compose-behat.yml run --rm app /bin/bash -c "wget https://github.com/jwilder/dockerize/releases/download/v0.6.0/dockerize-linux-amd64-v0.6.0.tar.gz && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.0.tar.gz && dockerize -wait tcp://webserver:80 -wait tcp://app:9000 -wait tcp://database:3306 -wait tcp://redis:6379 -wait tcp://selenium:4444 -timeout 300s && chmod -R 0777 /var/www/storage /var/www/bootstrap && php artisan config:cache && php artisan clear-compiled && php artisan migrate:fresh --force && php artisan db:seed && if [ ! -L public/storage ]; then php artisan storage:link; fi && chmod -R 0777 /var/www/storage /var/www/bootstrap && bash .docker/scripts/post-composer.sh && yarn production"
+  #       run: docker-compose -f docker-compose-behat.yml run --rm app /bin/bash -c "wget https://github.com/jwilder/dockerize/releases/download/v0.6.0/dockerize-linux-amd64-v0.6.0.tar.gz && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.0.tar.gz && dockerize -wait tcp://webserver:80 -wait tcp://app:9000 -wait tcp://database:3306 -wait tcp://redis:6379 -wait tcp://selenium:4444 -timeout 300s && chmod -R 0777 ./storage ./bootstrap && php artisan config:cache && php artisan clear-compiled && php artisan migrate:fresh --force && php artisan db:seed && if [ ! -L public/storage ]; then php artisan storage:link; fi && chmod -R 0777 ./storage ./bootstrap && bash .docker/scripts/post-composer.sh && yarn production"
 
   #     - name: Docker export the database
   #       run: docker exec -t dk_sp_database /bin/bash -c "bash ./scripts/export-all-data-of-database.sh"
@@ -416,7 +456,7 @@ jobs:
   #         ./.docker/scripts/store-access-database.sh
 
   #     - name: Start the environnement
-  #       run: docker-compose -f docker-compose-behat.yml run --rm app /bin/bash -c "wget https://github.com/jwilder/dockerize/releases/download/v0.6.0/dockerize-linux-amd64-v0.6.0.tar.gz && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.0.tar.gz && dockerize -wait tcp://webserver:80 -wait tcp://app:9000 -wait tcp://database:3306 -wait tcp://redis:6379 -wait tcp://selenium:4444 -timeout 300s && chmod -R 0777 /var/www/storage /var/www/bootstrap && php artisan config:cache && php artisan clear-compiled && php artisan migrate:fresh --force && php artisan db:seed && if [ ! -L public/storage ]; then php artisan storage:link; fi && chmod -R 0777 /var/www/storage /var/www/bootstrap && bash .docker/scripts/post-composer.sh && yarn production"
+  #       run: docker-compose -f docker-compose-behat.yml run --rm app /bin/bash -c "wget https://github.com/jwilder/dockerize/releases/download/v0.6.0/dockerize-linux-amd64-v0.6.0.tar.gz && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.0.tar.gz && dockerize -wait tcp://webserver:80 -wait tcp://app:9000 -wait tcp://database:3306 -wait tcp://redis:6379 -wait tcp://selenium:4444 -timeout 300s && chmod -R 0777 ./storage ./bootstrap && php artisan config:cache && php artisan clear-compiled && php artisan migrate:fresh --force && php artisan db:seed && if [ ! -L public/storage ]; then php artisan storage:link; fi && chmod -R 0777 ./storage ./bootstrap && bash .docker/scripts/post-composer.sh && yarn production"
 
   #     - name: Docker export the database
   #       run: docker exec -t dk_sp_database /bin/bash -c "bash ./scripts/export-all-data-of-database.sh"
