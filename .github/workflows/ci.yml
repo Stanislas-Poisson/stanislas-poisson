@@ -205,7 +205,7 @@ jobs:
       image: registry.gitlab.com/kuroi-taiyo/docker-store/docker:latest
 
     services:
-      dind:
+      docker:
         image: registry.gitlab.com/kuroi-taiyo/docker-store/dind:latest
         env:
           COMPOSE_HTTP_TIMEOUT: 300
@@ -231,22 +231,15 @@ jobs:
       - name: Copy the behat .env file
         run: cp .env.behat .env
 
-      - name: Docker-compose pull, build and up the containers
-        run: |
-          docker-compose -f docker-compose-behat.yml -p stanislaspoisson pull --ignore-pull-failures
-          docker-compose -f docker-compose-behat.yml -p stanislaspoisson build --pull --force-rm  --no-cache
-          docker-compose -f docker-compose-behat.yml -p stanislaspoisson up -d --remove-orphans
-
-      - name: Docker-compose list the up containers
-        run: docker-compose -f docker-compose-behat.yml -p stanislaspoisson ps
-
-      - name: Docker-compose export the log of the specified container
-        run: docker-compose logs -t --tail="20" app
-
       - name: Set the executing rights for the scripts and store the access of the database
         run: |
           chmod -R u+r+x ./.docker/scripts
           ./.docker/scripts/store-access-database.sh
+
+      - name: Docker-compose up, list the up
+        run: |
+          docker-compose -f docker-compose-behat.yml -p sp up -d --remove-orphans
+          docker-compose -f docker-compose-behat.yml -p sp ps
 
       - name: Start the environnement
         run: |
@@ -256,7 +249,7 @@ jobs:
         run: docker exec -t dk_sp_database /bin/bash -c "bash ./scripts/export-all-data-of-database.sh"
 
       - name: Test with Behat using all tags without @passed
-        run: docker-compose -f docker-compose-behat.yml -p stanislaspoisson run --rm app /bin/bash -c "php vendor/bin/behat --strict -vvv --tags=~@passed"
+        run: docker-compose -f docker-compose-behat.yml -p sp run --rm app /bin/bash -c "php vendor/bin/behat --strict -vvv --tags=~@passed"
 
       - name: Upload artifacts failure
         uses: actions/upload-artifact@v2
@@ -322,12 +315,12 @@ jobs:
 
   #     - name: Docker-compose pull, build and up the containers
   #       run: |
-  #         docker-compose -f docker-compose-behat.yml -p stanislaspoisson pull --ignore-pull-failures
-  #         docker-compose -f docker-compose-behat.yml -p stanislaspoisson build --pull --force-rm  --no-cache
-  #         docker-compose -f docker-compose-behat.yml -p stanislaspoisson up -d --remove-orphans
+  #         docker-compose -f docker-compose-behat.yml -p sp pull --ignore-pull-failures
+  #         docker-compose -f docker-compose-behat.yml -p sp build --pull --force-rm  --no-cache
+  #         docker-compose -f docker-compose-behat.yml -p sp up -d --remove-orphans
 
   #     - name: Docker-compose list the up containers
-  #       run: docker-compose -f docker-compose-behat.yml -p stanislaspoisson ps
+  #       run: docker-compose -f docker-compose-behat.yml -p sp ps
 
   #     - name: Docker-compose export the log of the specified container
   #       run: docker-compose logs -t --tail="20" app
@@ -338,13 +331,13 @@ jobs:
   #         ./.docker/scripts/store-access-database.sh
 
   #     - name: Start the environnement
-  #       run: docker-compose -f docker-compose-behat.yml -p stanislaspoisson run --rm app /bin/bash -c "wget https://github.com/jwilder/dockerize/releases/download/v0.6.0/dockerize-linux-amd64-v0.6.0.tar.gz && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.0.tar.gz && dockerize -wait tcp://webserver:80 -wait tcp://app:9000 -wait tcp://database:3306 -wait tcp://redis:6379 -wait tcp://selenium:4444 -timeout 300s && chmod -R 0777 /var/www/storage /var/www/bootstrap && php artisan config:cache && php artisan clear-compiled && php artisan migrate:fresh --force && php artisan db:seed && if [ ! -L public/storage ]; then php artisan storage:link; fi && chmod -R 0777 /var/www/storage /var/www/bootstrap && bash .docker/scripts/post-composer.sh && yarn production"
+  #       run: docker-compose -f docker-compose-behat.yml -p sp run --rm app /bin/bash -c "wget https://github.com/jwilder/dockerize/releases/download/v0.6.0/dockerize-linux-amd64-v0.6.0.tar.gz && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.0.tar.gz && dockerize -wait tcp://webserver:80 -wait tcp://app:9000 -wait tcp://database:3306 -wait tcp://redis:6379 -wait tcp://selenium:4444 -timeout 300s && chmod -R 0777 /var/www/storage /var/www/bootstrap && php artisan config:cache && php artisan clear-compiled && php artisan migrate:fresh --force && php artisan db:seed && if [ ! -L public/storage ]; then php artisan storage:link; fi && chmod -R 0777 /var/www/storage /var/www/bootstrap && bash .docker/scripts/post-composer.sh && yarn production"
 
   #     - name: Docker export the database
   #       run: docker exec -t dk_sp_database /bin/bash -c "bash ./scripts/export-all-data-of-database.sh"
 
   #     - name: Test with Behat using all tags without @passed
-  #       run: docker-compose -f docker-compose-behat.yml -p stanislaspoisson run --rm app /bin/bash -c "php vendor/bin/behat --strict -vvv --tags=~@javascript"
+  #       run: docker-compose -f docker-compose-behat.yml -p sp run --rm app /bin/bash -c "php vendor/bin/behat --strict -vvv --tags=~@javascript"
 
   #     - name: Upload artifacts failure
   #       uses: actions/upload-artifact@v2
@@ -409,12 +402,12 @@ jobs:
 
   #     - name: Docker-compose pull, build and up the containers
   #       run: |
-  #         docker-compose -f docker-compose-behat.yml -p stanislaspoisson pull --ignore-pull-failures
-  #         docker-compose -f docker-compose-behat.yml -p stanislaspoisson build --pull --force-rm  --no-cache
-  #         docker-compose -f docker-compose-behat.yml -p stanislaspoisson up -d --remove-orphans
+  #         docker-compose -f docker-compose-behat.yml -p sp pull --ignore-pull-failures
+  #         docker-compose -f docker-compose-behat.yml -p sp build --pull --force-rm  --no-cache
+  #         docker-compose -f docker-compose-behat.yml -p sp up -d --remove-orphans
 
   #     - name: Docker-compose list the up containers
-  #       run: docker-compose -f docker-compose-behat.yml -p stanislaspoisson ps
+  #       run: docker-compose -f docker-compose-behat.yml -p sp ps
 
   #     - name: Docker-compose export the log of the specified container
   #       run: docker-compose logs -t --tail="20" app
@@ -425,13 +418,13 @@ jobs:
   #         ./.docker/scripts/store-access-database.sh
 
   #     - name: Start the environnement
-  #       run: docker-compose -f docker-compose-behat.yml -p stanislaspoisson run --rm app /bin/bash -c "wget https://github.com/jwilder/dockerize/releases/download/v0.6.0/dockerize-linux-amd64-v0.6.0.tar.gz && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.0.tar.gz && dockerize -wait tcp://webserver:80 -wait tcp://app:9000 -wait tcp://database:3306 -wait tcp://redis:6379 -wait tcp://selenium:4444 -timeout 300s && chmod -R 0777 /var/www/storage /var/www/bootstrap && php artisan config:cache && php artisan clear-compiled && php artisan migrate:fresh --force && php artisan db:seed && if [ ! -L public/storage ]; then php artisan storage:link; fi && chmod -R 0777 /var/www/storage /var/www/bootstrap && bash .docker/scripts/post-composer.sh && yarn production"
+  #       run: docker-compose -f docker-compose-behat.yml -p sp run --rm app /bin/bash -c "wget https://github.com/jwilder/dockerize/releases/download/v0.6.0/dockerize-linux-amd64-v0.6.0.tar.gz && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.0.tar.gz && dockerize -wait tcp://webserver:80 -wait tcp://app:9000 -wait tcp://database:3306 -wait tcp://redis:6379 -wait tcp://selenium:4444 -timeout 300s && chmod -R 0777 /var/www/storage /var/www/bootstrap && php artisan config:cache && php artisan clear-compiled && php artisan migrate:fresh --force && php artisan db:seed && if [ ! -L public/storage ]; then php artisan storage:link; fi && chmod -R 0777 /var/www/storage /var/www/bootstrap && bash .docker/scripts/post-composer.sh && yarn production"
 
   #     - name: Docker export the database
   #       run: docker exec -t dk_sp_database /bin/bash -c "bash ./scripts/export-all-data-of-database.sh"
 
   #     - name: Test with Behat using all tags without @passed
-  #       run: docker-compose -f docker-compose-behat.yml -p stanislaspoisson run --rm app /bin/bash -c "php vendor/bin/behat --strict -vvv --tags=@javascript"
+  #       run: docker-compose -f docker-compose-behat.yml -p sp run --rm app /bin/bash -c "php vendor/bin/behat --strict -vvv --tags=@javascript"
 
   #     - name: Upload artifacts failure
   #       uses: actions/upload-artifact@v2
