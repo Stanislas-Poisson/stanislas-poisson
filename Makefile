@@ -39,7 +39,7 @@ check-files:	cs phpstan	## Run the PHP-CS-Fixer and Prettier with PHPstan pipeli
 
 tests:	unit behat	## Run the PHPUnit, Behat pipelines
 
-behat:	behat-passed	## Run the Behat pipelines
+behat:	behat-passed	## Run all the Behat pipelines
 
 cs:	## Run the PHP-CS-Fixer and Prettier pipeline
 	bash ./.docker/scripts/make/tests/cs.sh

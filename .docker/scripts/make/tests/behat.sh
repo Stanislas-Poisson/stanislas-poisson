@@ -5,7 +5,7 @@ TAGS=$1
 cp .env .env.bak
 cp .env.behat .env
 bash ./.docker/scripts/store-access-database.sh
-docker exec -t sk_sp_database bash ./scripts/export-all-data-of-database.sh
+docker exec -t dk_sp_database bash ./scripts/export-all-data-of-database.sh
 
 CMD="composer run-script renew-app && "
 CMD+="yarn production && "

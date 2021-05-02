@@ -5,38 +5,32 @@ on: [push, pull_request]
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # Step Install
-  install:
-    if: github.ref != 'refs/heads/release/**' || github.ref != 'refs/tags/**'
+  # install:
+  #   if: github.ref != 'refs/heads/release/**' || github.ref != 'refs/tags/**'
 
-    runs-on: ubuntu-latest
+  #   runs-on: ubuntu-latest
 
-    container:
-      image: registry.gitlab.com/kuroi-taiyo/docker-store/php:latest
+  #   container:
+  #     image: registry.gitlab.com/kuroi-taiyo/docker-store/php:latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+  #   # Steps represent a sequence of tasks that will be executed as part of the job
+  #   steps:
+  #     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+  #     - uses: actions/checkout@v2
 
-      # Runs those commands
-      - name: Cache artifacts dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            .env
-            bootstrap
-            node_modules
-            public
-            vendor
-          key: dependencies-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('**/composer.lock') }}
+  #     # Runs those commands
+  #     - name: Cache dependencies
+  #       uses: actions/cache@v2
+  #       with:
+  #         path: |
+  #           node_modules
+  #           vendor
+  #         key: dependencies-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('**/composer.lock') }}
 
-      - name: Copy the .env.test file, install composer, cache the config, package.json and run the mix production
-        run: |
-          cp .env.test .env
-          composer install --no-progress --profile --no-interaction --prefer-dist --optimize-autoloader
-          php artisan config:cache
-          yarn install --ignore-engines --frozen-lockfile
-          yarn run production
+  #     - name: Install dependencies
+  #       run: |
+  #         composer install --no-progress --profile --no-interaction --optimize-autoloader
+  #         yarn install --ignore-engines --frozen-lockfile
 
   # Step Quality Control
   # prettier:
@@ -197,7 +191,7 @@ jobs:
     if: github.ref != 'refs/heads/release/**' || github.ref != 'refs/tags/**'
 
     # needs: [prettier, php-cs-fixer, phpstan]
-    needs: [install]
+    # needs: [install]
 
     runs-on: ubuntu-latest
 
@@ -234,6 +228,13 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
+      selenium:
+        image: registry.gitlab.com/kuroi-taiyo/docker-store/selenium:latest
+        ports:
+          - 4444:4444
+        volumes:
+          - /dev/shm:/dev/shm
+
     #   docker:
     #     image: registry.gitlab.com/kuroi-taiyo/docker-store/dind:latest
     #     env:
@@ -246,48 +247,46 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: Cache artifacts dependencies
+      - name: Cache dependencies
         uses: actions/cache@v2
         with:
           path: |
-            .env
-            bootstrap
             node_modules
-            public
             vendor
           key: dependencies-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('**/composer.lock') }}
 
-      - name: Copy the behat .env file
-        run: cp .env.behat .env
-
-      - name: Show the list of file and place
+      - name: Install dependencies
         run: |
-          pwd
-          ls -la
-          cat .env
+          composer install --no-progress --profile --no-interaction --optimize-autoloader
+          yarn install --ignore-engines --frozen-lockfile
 
-      - name: Docker-compose up, list the up
-        env:
-          TAG: "${GITHUB_SHA}"
+      - name: Verify MySQL connection from host
         run: |
-          docker ps
-          docker-compose -f docker-compose-behat.yml up -d
-          docker ps
+          sudo apt-get install -y mysql-client
+          mysql --host 127.0.0.1 --port 3306 -ustanislaspoisson -pstanislaspoisson -e "SHOW DATABASES"
 
-      - name: Set the executing rights for the scripts and store the access of the database
+      - name: Configure and run production
         run: |
+          cp .env.github.behat .env
+          sed "s/http:\/\/webserver/http:\/\/127.0.0.1/" ./behat.yml
+          php artisan config:cache
+          php artisan --version
+          yarn run production
+
+      - name: Set up the project
+        run: |
+          chmod -R 0777 ./storage ./bootstrap
           chmod -R u+r+x ./.docker/scripts
-          ./.docker/scripts/store-access-database.sh
-
-      - name: Start the environnement
-        run: docker exec -t dk_sp_app /bin/bash -c "pwd && ls -la && cat .env && chmod -R 0777 ./storage ./bootstrap"
-        # run: docker exec -t dk_sp_app /bin/bash -c "chmod -R 0777 ./storage ./bootstrap && php artisan config:cache && php artisan clear-compiled && php artisan migrate:fresh --force && php artisan db:seed && if [ ! -L public/storage ]; then php artisan storage:link; fi && chmod -R 0777 ./storage ./bootstrap && bash .docker/scripts/post-composer.sh && yarn production"
+          ./.docker/scripts/github-actions-store-access-database.sh
+          cat ./bootstrap/cache/config.php
+          php artisan migrate:fresh --force --seed
+          php artisan storage:link
 
       - name: Docker export the database
-        run: docker exec -t dk_sp_database /bin/bash -c "bash ./scripts/export-all-data-of-database.sh"
+        run: bash ./.docker/scripts/github-actions-export-all-data-of-database.sh
 
       - name: Test with Behat using all tags without @passed
-        run: docker-compose -f docker-compose-behat.yml run --rm app /bin/bash -c "php vendor/bin/behat --strict -vvv --tags=~@passed"
+        run: php vendor/bin/behat --strict -vvv --tags=~@passed
 
       - name: Upload artifacts failure
         uses: actions/upload-artifact@v2
