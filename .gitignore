@@ -22,6 +22,7 @@ npm-debug.log
 yarn-error.log
 .env
 .env.bak
+.env.save
 supervisord.log
 supervisord.pid
 .php_cs.cache

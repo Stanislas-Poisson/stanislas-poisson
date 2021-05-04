@@ -1,5 +1,8 @@
+
+
+
 .DEFAULT_GOAL = help
-.PHONY: help ssh design stop fix renew-app renew-rights ci check-files tests behat cs phpstan unit behat-passed behat-wip behat-list queue-listen clean db-reset docker-prune behat-goutte behat-javascript
+.PHONY: help ssh design stop fix renew-app renew-rights ci check-files tests cs phpstan unit queue-listen clean db-reset docker-prune
 
 include .env
 
@@ -37,9 +40,7 @@ ci:	check-files tests	## Run the check-files and tests pipelines
 
 check-files:	cs phpstan	## Run the PHP-CS-Fixer and Prettier with PHPstan pipelines
 
-tests:	unit behat	## Run the PHPUnit, Behat pipelines
-
-behat:	behat-passed	## Run all the Behat pipelines
+tests:	unit	## Run the PHPUnit
 
 cs:	## Run the PHP-CS-Fixer and Prettier pipeline
 	bash ./.docker/scripts/make/tests/cs.sh
@@ -49,15 +50,6 @@ phpstan:	## Run the PHPstan pipeline
 
 unit:	## Run the PHPUnit pipeline
 	bash ./.docker/scripts/make/tests/unit.sh
-
-behat-passed:	## Run the Behat javascript pipelines without @passed tag
-	bash ./.docker/scripts/make/tests/behat.sh ~@passed
-
-behat-wip:	## Run the Behat goutte and Behat javascript pipeline with @wip tag
-	bash ./.docker/scripts/make/tests/behat.sh @wip
-
-behat-list:	## Get all the commande availables with behat
-	bash ./.docker/scripts/make/tests/behat-list.sh en
 
 queue-listen:	## Show the queue listen by artisan through docker
 	bash ./.docker/scripts/make/project/queue-listen.sh
@@ -73,12 +65,3 @@ db-reset:	## Rebuild, migrate and seed the database
 
 docker-prune:	## Prune the system
 	docker system prune -af
-
-# REMOVED BECAUSE OF INSTABILITY OF https://packagist.org/packages/behat/mink-goutte-driver
-# behat: behat-goutte behat-javascript	## Run the Behat goutte and Behat javascript pipelines
-
-# behat-goutte:	## Run the Behat goutte pipeline without @javascript tag
-# 	bash ./.docker/scripts/make/tests/behat.sh ~@javascript
-
-# behat-javascript:	## Run the Behat javascript pipeline with @javascript tag
-# 	bash ./.docker/scripts/make/tests/behat.sh @javascript
