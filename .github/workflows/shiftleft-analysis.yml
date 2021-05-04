@@ -16,13 +16,22 @@ jobs:
   Scan-Build:
     # Scan runs on ubuntu, mac and windows
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v2
-    # Instructions
-    # 1. Setup JDK, Node.js, Python etc depending on your project type
-    # 2. Compile or build the project before invoking scan
-    #    Example: mvn compile, or npm install or pip install goes here
-    # 3. Invoke Scan with the github token. Leave the workspace empty to use relative url
+
+    - name: Cache dependencies
+      uses: actions/cache@v2
+      with:
+        path: |
+          node_modules
+          vendor
+        key: dependencies-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('**/composer.lock') }}
+
+    - name: Install dependencies
+      run: |
+        composer install --no-progress --profile --no-interaction --optimize-autoloader
+        yarn install --ignore-engines --frozen-lockfile
 
     - name: Perform Scan
       uses: ShiftLeftSecurity/scan-action@master
