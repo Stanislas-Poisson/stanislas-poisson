@@ -1,60 +1,109 @@
-version: "2"
+version: "3"
 
 services:
-  httpd:
-    image: httpd:2.4-alpine
+# Nginx Service
+  webserver:
+    image: registry.gitlab.com/kuroi-taiyo/docker-store/nginx:latest
+    container_name: dk_sp_webserver
+    restart: unless-stopped
+    tty: true
     ports:
       - 80:80
-    volumes_from:
-      - fpm
-    links:
-      - fpm
+      - 443:443
+      - 8080:8080
     volumes:
-      - ./docker/apache/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
-      - ./docker/apache/vhosts:/usr/local/apache2/conf/vhosts:ro
+      - ./:/var/www
+      - ./.docker/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - sp-network
 
-  fpm:
-    image: stanislasp/laravel-5-php-7.3:latest
-    expose:
-      - 9000
-    ports:
-      - 9000:9000
-    volumes:
-      - .:/var/www/html:rw
+# PHP Service
+  app:
+    image: registry.gitlab.com/kuroi-taiyo/docker-store/php:latest
+    container_name: dk_sp_app
+    restart: unless-stopped
+    tty: true
     links:
-      - mysql
+      - database
       - redis
       - mailcatcher
+    volumes:
+      - ./:/var/www
+    networks:
+      - sp-network
 
-  mysql:
-    image: mysql:5.7
+  # Cron Service
+  ofelia-cron:
+    image: registry.gitlab.com/kuroi-taiyo/docker-store/cron:latest
+    container_name: dk_sp_cron
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./.docker/cron/timezone:/etc/timezone
+      - ./.docker/cron/localtime:/etc/localtime
+    networks:
+      - sp-network
+
+  # MySQL Service
+  database:
+    image: registry.gitlab.com/kuroi-taiyo/docker-store/mysql:latest
+    container_name: dk_sp_database
+    restart: unless-stopped
+    tty: true
     ports:
       - 3306:3306
+    env_file: .env
     volumes:
-      - ./docker/mysql/conf:/etc/mysql/conf.d/custom.cnf:ro
-      - db_data:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: stanislaspoisson
-      MYSQL_USER: stanislaspoisson
-      MYSQL_PASSWORD: stanislaspoisson
+      - spData-database:/var/lib/mysql/
+      - ./.docker/scripts/:/scripts/
+      - ./.docker/tmp-data/:/tmp-data/
+    networks:
+      - sp-network
 
+  # Redis Service
   redis:
-    image: redis:5-alpine
+    image: registry.gitlab.com/kuroi-taiyo/docker-store/redis:latest
+    container_name: dk_sp_redis
     command: redis-server --appendonly yes
+    env_file: .env
+    hostname: redis
     ports:
       - 6379:6379
     volumes:
-      - redis_data:/data
+      - spData-redis:/data
+    networks:
+      - sp-network
 
+  # MailCatcher Service
   mailcatcher:
-    image: jeanberu/mailcatcher:0.6.5
+    image: registry.gitlab.com/kuroi-taiyo/docker-store/mailcatcher:latest
+    container_name: dk_sp_mailcatcher
     ports:
       - 1025:1025
       - 1080:1080
+    networks:
+      - sp-network
 
+  # Selenium Services
+  selenium:
+    image: registry.gitlab.com/kuroi-taiyo/docker-store/selenium:latest
+    container_name: dk_sp_selenium
+    volumes:
+      - /dev/shm:/dev/shm
+    depends_on:
+      - app
+    ports:
+      - 4444:4444
+    networks:
+      - sp-network
+
+#Docker Networks
+networks:
+  sp-network:
+    driver: bridge
+
+#Volumes
 volumes:
-  db_data:
+  spData-database:
     driver: local
-  redis_data:
+  spData-redis:
     driver: local

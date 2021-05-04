@@ -1,0 +1,203 @@
+name: CI
+
+on: [push]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # Step Install
+  install:
+    if: github.ref != 'refs/heads/release/**' || github.ref != 'refs/tags/**'
+
+    runs-on: ubuntu-latest
+
+    container:
+      image: registry.gitlab.com/kuroi-taiyo/docker-store/php:latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs those commands
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            vendor
+          key: dependencies-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('**/composer.lock') }}
+
+      - name: Install dependencies
+        run: |
+          composer install --no-progress --profile --no-interaction --optimize-autoloader
+          yarn install --ignore-engines --frozen-lockfile
+
+  # Step Quality Control
+  prettier:
+    if: github.ref != 'refs/heads/release/**' || github.ref != 'refs/tags/**'
+
+    needs: [install]
+
+    runs-on: ubuntu-latest
+
+    container:
+      image: registry.gitlab.com/kuroi-taiyo/docker-store/php:latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Cache artifacts dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            vendor
+          key: dependencies-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('**/composer.lock') }}
+
+      - name: Install dependencies
+        run: |
+          composer install --no-progress --profile --no-interaction --optimize-autoloader
+          yarn install --ignore-engines --frozen-lockfile
+
+      - name: Check the CS with Prettier
+        run: prettier --check "resources/**/*.+(js|json|scss|sass|css|vue)" ".babelrc" "composer.json" "package.json" "webpack.mix.js"
+
+  php-cs-fixer:
+    if: github.ref != 'refs/heads/release/**' || github.ref != 'refs/tags/**'
+
+    needs: [install]
+
+    runs-on: ubuntu-latest
+
+    container:
+      image: registry.gitlab.com/kuroi-taiyo/docker-store/php:latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Cache artifacts dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            vendor
+          key: dependencies-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('**/composer.lock') }}
+
+      - name: Install dependencies
+        run: |
+          composer install --no-progress --profile --no-interaction --optimize-autoloader
+          yarn install --ignore-engines --frozen-lockfile
+
+      - name: Check the Code Style with PHP CS Fixer
+        run: |
+          rm -f .php_cs.cache || true
+          php-cs-fixer fix --config=.php_cs --dry-run --diff --using-cache=no
+
+  phpstan:
+    if: github.ref != 'refs/heads/release/**' || github.ref != 'refs/tags/**'
+
+    needs: [install]
+
+    runs-on: ubuntu-latest
+
+    container:
+      image: registry.gitlab.com/kuroi-taiyo/docker-store/php:latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Cache artifacts dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            vendor
+          key: dependencies-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('**/composer.lock') }}
+
+      - name: Install dependencies
+        run: |
+          composer install --no-progress --profile --no-interaction --optimize-autoloader
+          yarn install --ignore-engines --frozen-lockfile
+
+      - name: Check the code with PHPStan
+        run: php vendor/bin/phpstan analyse -c phpstan.neon --memory-limit=2G
+
+  # Tests
+  phpunit:
+    if: github.ref != 'refs/heads/release/**' || github.ref != 'refs/tags/**'
+
+    needs: [prettier, php-cs-fixer, phpstan]
+
+    runs-on: ubuntu-latest
+
+    container:
+      image: registry.gitlab.com/kuroi-taiyo/docker-store/php:latest
+
+    services:
+      database:
+        image: registry.gitlab.com/kuroi-taiyo/docker-store/mysql:latest
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: stanislaspoisson
+          MYSQL_USER: stanislaspoisson
+          MYSQL_PASSWORD: stanislaspoisson
+      redis:
+        image: registry.gitlab.com/kuroi-taiyo/docker-store/redis:latest
+        env:
+          REDIS_PORT: 6379
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Cache artifacts dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            vendor
+          key: dependencies-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('**/composer.lock') }}
+
+      - name: Install dependencies
+        run: |
+          composer install --no-progress --profile --no-interaction --optimize-autoloader
+          yarn install --ignore-engines --frozen-lockfile
+
+      - name: Check the code with PHPUnit
+        run: |
+          cp .env.test .env
+          sed 's#APP_DOMAIN=app#APP_DOMAIN=localhost#' .env
+          php artisan key:generate
+          php artisan optimize:clear
+          php artisan view:cache
+          php artisan route:cache
+          php artisan config:cache
+          php artisan package:discover
+          php artisan optimize
+          php -d memory_limit=2048M vendor/bin/phpunit --stderr
+
+      - name: Upload artifacts failure
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: "${{ github.action }}-${{ github.job }}-FAILED"
+          path: |
+            bootstrap/
+            public/
+            storage/
+            tests/
+            .env
+            npm-debug.log
+            yarn-error.log
+            .php_cs.cache
+            .phpunit.result.cache
+          retention-days: 1
+
+  # Deploy

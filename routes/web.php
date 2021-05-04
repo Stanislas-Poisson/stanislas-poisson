@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,17 +14,4 @@
 |
 */
 
-Auth::routes();
-
-Route::resource('/', 'HomeController',
-    [
-        'only' => [
-            'index',
-            'store',
-        ],
-        'names' => [
-            'index'  => 'home.index',
-            'store'  => 'home.store',
-        ],
-    ]
-);
+Route::get('/', HomeController::class);

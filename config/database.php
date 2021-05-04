@@ -3,6 +3,7 @@
 use Illuminate\Support\Str;
 
 return [
+
     /*
     |--------------------------------------------------------------------------
     | Default Database Connection Name
@@ -33,6 +34,7 @@ return [
     */
 
     'connections' => [
+
         'sqlite' => [
             'driver'                  => 'sqlite',
             'url'                     => env('DATABASE_URL'),
@@ -44,11 +46,11 @@ return [
         'mysql' => [
             'driver'         => 'mysql',
             'url'            => env('DATABASE_URL'),
-            'host'           => env('DB_HOST', '127.0.0.1'),
-            'port'           => env('DB_PORT', '3306'),
-            'database'       => env('DB_DATABASE', 'forge'),
-            'username'       => env('DB_USERNAME', 'forge'),
-            'password'       => env('DB_PASSWORD', ''),
+            'host'           => env('MYSQL_ADDON_HOST', '127.0.0.1'),
+            'port'           => env('MYSQL_ADDON_PORT', '3306'),
+            'database'       => env('MYSQL_ADDON_DB', 'forge'),
+            'username'       => env('MYSQL_ADDON_USER', 'forge'),
+            'password'       => env('MYSQL_ADDON_PASSWORD', ''),
             'unix_socket'    => env('DB_SOCKET', ''),
             'charset'        => 'utf8mb4',
             'collation'      => 'utf8mb4_unicode_ci',
@@ -88,6 +90,7 @@ return [
             'prefix'         => '',
             'prefix_indexes' => true,
         ],
+
     ],
 
     /*
@@ -115,6 +118,7 @@ return [
     */
 
     'redis' => [
+
         'client' => env('REDIS_CLIENT', 'phpredis'),
 
         'options' => [
@@ -126,16 +130,18 @@ return [
             'url'      => env('REDIS_URL'),
             'host'     => env('REDIS_HOST', '127.0.0.1'),
             'password' => env('REDIS_PASSWORD', null),
-            'port'     => env('REDIS_PORT', 6379),
-            'database' => env('REDIS_DB', 0),
+            'port'     => env('REDIS_PORT', '6379'),
+            'database' => env('REDIS_DB', '0'),
         ],
 
         'cache' => [
             'url'      => env('REDIS_URL'),
             'host'     => env('REDIS_HOST', '127.0.0.1'),
             'password' => env('REDIS_PASSWORD', null),
-            'port'     => env('REDIS_PORT', 6379),
-            'database' => env('REDIS_CACHE_DB', 1),
+            'port'     => env('REDIS_PORT', '6379'),
+            'database' => env('REDIS_CACHE_DB', '1'),
         ],
+
     ],
+
 ];

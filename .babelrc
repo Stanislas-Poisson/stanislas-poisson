@@ -1,0 +1,29 @@
+{
+    "sourceType": "unambiguous",
+    "presets": [
+        [
+            "@babel/preset-env",
+            {
+                "bugfixes": true,
+                "corejs": "3",
+                "debug": true,
+                "forceAllTransforms": true,
+                "modules": false,
+                "targets": {
+                    "esmodules": true,
+                    "android": 84,
+                    "chrome": 52,
+                    "edge": 16,
+                    "firefox": 57,
+                    "ie": 11,
+                    "ios": 12.2,
+                    "opera": 44,
+                    "safari": 10.1,
+                    "samsung": 9.2,
+                    "browsers": "last 4 versions, > 1% in FR, not dead"
+                },
+                "useBuiltIns": "usage"
+            }
+        ]
+    ]
+}
